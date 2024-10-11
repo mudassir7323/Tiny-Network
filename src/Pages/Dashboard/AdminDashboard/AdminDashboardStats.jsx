@@ -4,35 +4,35 @@ const AdminDashboardStats = () => {
   // Sample data for freelancer statistics
   const stats = [
     {
-      title: 'Jobs Availed',
-      value: 15,
+      title: 'Users',
+      value: 36000,
       backgroundColor: '#4CAF50', // Green
     },
     {
-      title: 'Jobs Completed',
-      value: 25,
+      title: 'Buyers',
+      value: 12000,
       backgroundColor: '#2196F3', // Blue
     },
     {
-      title: 'Rating',
-      value: 4.9,
+      title: 'Sellers',
+      value: 24000,
       backgroundColor: '#FF9800', // Orange
     },
     {
-      title: 'Time Taken',
-      value: '30 hrs',
+      title: 'Services',
+      value: '6',
       backgroundColor: '#9C27B0', // Purple
     },
-    {
-      title: 'Balance',
-      value: '$200',
-      backgroundColor: '#FF5722', // Red
-    },
-    {
-      title: 'Projects in Progress',
-      value: 5,
-      backgroundColor: '#FFC107', // Yellow
-    },
+    // {
+    //   title: 'Balance',
+    //   value: '$200',
+    //   backgroundColor: '#FF5722', // Red
+    // },
+    // {
+    //   title: 'Projects in Progress',
+    //   value: 5,
+    //   backgroundColor: '#FFC107', // Yellow
+    // },
   ];
 
   return (

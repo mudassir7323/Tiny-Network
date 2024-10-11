@@ -7,11 +7,15 @@ import {
   FaChartPie,
   FaUser,
 } from "react-icons/fa";
+import { IoGitPullRequestSharp } from "react-icons/io5";
+import { MdOutlineMiscellaneousServices } from "react-icons/md";
 import "./AdminDashboard.css";
-import UserProfile from "./AdminProfile";
 import UserDashboardCharts from "./AdminDashboardCharts";
-import UserDashboardStats from "./AdminDashboardStats"
+import UserDashboardStats from "./AdminDashboardStats";
 import UserDashboardGeneral from "./AdminDashboardGeneral";
+import AllUsers from "./AllUsers";
+import Requests from "./Requests";
+import Services from "./Services";
 
 const AdminDashboard = () => {
   const [isAsideVisible, setIsAsideVisible] = useState(false);
@@ -27,7 +31,7 @@ const AdminDashboard = () => {
     toggleAside();
     // Smooth scroll to main content
     if (mainContentRef.current) {
-      mainContentRef.current.scrollIntoView({ behavior: 'smooth' });
+      mainContentRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -53,9 +57,17 @@ const AdminDashboard = () => {
             <FaChartPie className="icon" />
             Visuals
           </li>
-          <li onClick={() => handleItemClick("Profile")}>
+          <li onClick={() => handleItemClick("Users")}>
             <FaUser className="icon" />
-            Profile
+            Users
+          </li>
+          <li onClick={() => handleItemClick("Requests")}>
+            <IoGitPullRequestSharp className="icon" />
+            Requests
+          </li>
+          <li onClick={() => handleItemClick("Services")}>
+            <MdOutlineMiscellaneousServices className="icon" />
+            Services
           </li>
         </ul>
       </aside>
@@ -64,13 +76,25 @@ const AdminDashboard = () => {
           {(() => {
             switch (item) {
               case "General":
-                return <div><UserDashboardGeneral/></div>;
+                return (
+                  <div>
+                    <UserDashboardGeneral />
+                  </div>
+                );
               case "Stats":
-                return <div><UserDashboardStats/></div>;
+                return (
+                  <div>
+                    <UserDashboardStats />
+                  </div>
+                );
               case "Visuals":
                 return <UserDashboardCharts />;
-              case "Profile":
-                return <UserProfile />;
+              case "Users":
+                return <AllUsers />;
+              case "Requests":
+                return <Requests />;
+              case "Services":
+                return <Services />;
               default:
                 return <div>Select an option</div>;
             }

@@ -23,7 +23,7 @@ const AdminDashboardCharts = () => {
     labels: ['January', 'February', 'March', 'April', 'May', 'June'],
     datasets: [
       {
-        label: 'Sales',
+        label: 'Users',
         data: [65, 59, 80, 81, 56, 55],
         fill: false,
         backgroundColor: 'rgba(75,192,192,0.4)',
@@ -33,28 +33,26 @@ const AdminDashboardCharts = () => {
   };
 
   const barChartData = {
-    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+    labels: ['Total', 'Buyer', 'Seller', 'Services'],
     datasets: [
       {
-        label: '# of Votes',
-        data: [12, 19, 3, 5, 2, 3],
+        label: 'Total Network',
+        data: [36000, 12000, 24000, 6],
         backgroundColor: [
           'rgba(255, 99, 132, 0.6)',
           'rgba(54, 162, 235, 0.6)',
           'rgba(255, 206, 86, 0.6)',
           'rgba(75, 192, 192, 0.6)',
-          'rgba(153, 102, 255, 0.6)',
-          'rgba(255, 159, 64, 0.6)',
         ],
       },
     ],
   };
 
   const donutChartData = {
-    labels: ['Red', 'Blue', 'Yellow'],
+    labels: ['Visitors', 'Workers', 'professionals'],
     datasets: [
       {
-        data: [300, 50, 100],
+        data: [36000, 24000, 12000],
         backgroundColor: ['rgba(255, 99, 132, 0.6)', 'rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)'],
       },
     ],
@@ -74,7 +72,7 @@ const AdminDashboardCharts = () => {
           <h2 className="text-lg font-semibold mb-2 text-center">Bar Chart</h2>
           <Bar data={barChartData} options={{ responsive: true, maintainAspectRatio: false }} height={300} />
         </div>
-        <div className="border border-gray-300 rounded-lg shadow-lg w-1/2 p-4" style={{ height: '300px' }}>
+        <div className="border h-max border-gray-300 rounded-lg shadow-lg w-1/2 p-4" style={{ height: '300px' }}>
           <h2 className="text-lg font-semibold mb-2 text-center">Donut Chart</h2>
           <Doughnut data={donutChartData} options={{ responsive: true, maintainAspectRatio: false }} height={300} />
         </div>
