@@ -1,0 +1,137 @@
+/* Basic styles for desktop */
+.layout {
+  display: flex;
+  height: 100vh;
+  position: relative;
+  background-color: #f5f7fa; /* Light background for contrast */
+}
+
+aside {
+  width: 25%;
+  background-color: #2d2f36; /* Dark sidebar */
+  padding: 20px;
+  transition: transform 0.3s ease-in-out;
+  color: #ffffff;
+  position: fixed; /* Fixes the sidebar */
+  height: 100vh; /* Ensures the sidebar covers full height */
+  overflow-y: auto; /* Allows scrolling if content exceeds height */
+}
+
+main {
+  width: 75%; /* Set width to occupy remaining space */
+  background-color: #ffffff;
+  height: auto; /* Ensures the main section covers full height */
+  overflow: hidden; /* Prevents scrolling in main */
+  margin-left: 25%; /* For desktop view */
+}
+
+.main-content {
+  overflow-y: auto; /* Allows scrolling for main content */
+}
+
+/* Header inside aside */
+aside h1 {
+  font-size: 28px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #1e88e5; /* Vibrant blue for the logo text */
+  margin-bottom: 20px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 3px; /* Adds spacing for a logo feel */
+  border-bottom: 2px solid #1e88e5; /* Underline with same accent color */
+  padding-bottom: 15px;
+  background-color: #2d2f36;
+  padding-top: 10px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+}
+
+/* List styles */
+aside ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Hover effect */
+aside ul li:hover {
+  background-color: #444952; /* Slightly lighter than sidebar background */
+}
+
+/* Active state */
+aside ul li.active {
+  background-color: #1e88e5; /* Accent color */
+}
+
+/* Button styles (only visible in mobile view) */
+.toggle-btn {
+  background-color: #1e88e5; /* Accent color */
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 101;
+  transition: background-color 0.3s;
+}
+
+.toggle-btn:hover {
+  background-color: #1565c0;
+}
+
+aside ul li {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  padding: 12px 20px;
+  color: #ffffff;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+/* Icon styling */
+.icon {
+  margin-right: 10px;
+  font-size: 1.2rem;
+}
+
+/* Hide button in desktop view */
+@media (min-width: 769px) {
+  .toggle-btn {
+    display: none;
+  }
+}
+
+/* Styles for mobile view */
+@media (max-width: 768px) {
+  aside {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    transform: translateX(-100%);
+    z-index: 100;
+  }
+
+  .show-aside {
+    transform: translateX(0);
+  }
+
+  main {
+    width: 100%; /* Take full width when aside is hidden */
+    margin-left: 0; /* No margin on mobile view */
+  }
+
+  /* Show button only in mobile view */
+  .toggle-btn {
+    display: inline-block;
+  }
+}
