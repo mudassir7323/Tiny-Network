@@ -10,6 +10,7 @@ import UserDashboard from './Pages/Dashboard/UserDashboard/UserDashboard';
 import Signup from './Pages/Signup/Signup';
 import BuyerSignup from './Pages/Signup/BuyerSignup/BuyerSignup';
 import Home from "./Pages/Home/Home"
+import AdminDashboard from "./Pages/Dashboard/AdminDashboard/AdminDashboard"
 
 const Main = () => {
   return (
@@ -23,6 +24,7 @@ const Main = () => {
           <Route path="Admin-login" element={<AdminLogin />} />
           <Route path="Teacher-Signup" element={<TeacherSignup />} />
           <Route path="UserDashboard" element={<UserDashboard />} />
+          <Route path="AdminDashboard" element={<AdminDashboard />} />
         </Route>
       </Routes>
     </BrowserRouter>
