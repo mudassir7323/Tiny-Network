@@ -10,6 +10,8 @@ import {
 import "./UserDashboard.css";
 import UserProfile from "./UserProfile";
 import UserDashboardCharts from "./UserDashboardCharts";
+import UserDashboardStats from "./UserDashboardStats"
+import UserDashboardGeneral from "./UserDashboardGeneral";
 
 const UserDashboard = () => {
   const [isAsideVisible, setIsAsideVisible] = useState(false);
@@ -62,9 +64,9 @@ const UserDashboard = () => {
           {(() => {
             switch (item) {
               case "General":
-                return <div>General Content</div>;
+                return <div><UserDashboardGeneral/></div>;
               case "Stats":
-                return <div>Statistics Content</div>;
+                return <div><UserDashboardStats/></div>;
               case "Visuals":
                 return <UserDashboardCharts />;
               case "Profile":

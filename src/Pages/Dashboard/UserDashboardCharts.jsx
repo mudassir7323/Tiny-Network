@@ -17,7 +17,7 @@ import {
 // Register necessary components
 ChartJS.register(CategoryScale, LinearScale, ArcElement, LineElement, PointElement, BarElement, Tooltip, Legend);
 
-const DashboardCharts = () => {
+const UserDashboardCharts = () => {
   // Sample data for the charts
   const lineChartData = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June'],
@@ -63,18 +63,18 @@ const DashboardCharts = () => {
   return (
     <div className="flex flex-col p-6 space-y-6">
       {/* Line Chart - Full Width */}
-      <div className="w-full" style={{ height: '300px' }}>
+      <div className="border border-gray-300 rounded-lg shadow-lg p-4" style={{ height: '300px' }}>
         <h2 className="text-lg font-semibold mb-2 text-center">Line Chart</h2>
         <Line data={lineChartData} options={{ responsive: true, maintainAspectRatio: false }} height={300} />
       </div>
 
       {/* Bar and Donut Charts - Side by Side */}
       <div className="flex justify-between space-x-4">
-        <div className="w-1/2" style={{ height: '300px' }}>
+        <div className="border border-gray-300 rounded-lg shadow-lg w-1/2 p-4" style={{ height: '300px' }}>
           <h2 className="text-lg font-semibold mb-2 text-center">Bar Chart</h2>
           <Bar data={barChartData} options={{ responsive: true, maintainAspectRatio: false }} height={300} />
         </div>
-        <div className="w-1/2" style={{ height: '300px' }}>
+        <div className="border border-gray-300 rounded-lg shadow-lg w-1/2 p-4" style={{ height: '300px' }}>
           <h2 className="text-lg font-semibold mb-2 text-center">Donut Chart</h2>
           <Doughnut data={donutChartData} options={{ responsive: true, maintainAspectRatio: false }} height={300} />
         </div>
@@ -83,4 +83,4 @@ const DashboardCharts = () => {
   );
 };
 
-export default DashboardCharts;
+export default UserDashboardCharts;
