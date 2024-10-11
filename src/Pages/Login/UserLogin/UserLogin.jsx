@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import loginImage from "./User-Login-image.jpg"; // Adjust the image path as per your project structure
+import Navbar from "../../../Components/Navbar";
 
 const UserLogin = () => {
   // State for email and password
@@ -34,6 +35,7 @@ const UserLogin = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-indigo-600 to-purple-600">
+      <Navbar/>
       <div className="bg-white rounded-lg shadow-lg overflow-hidden flex w-4/5 max-w-4xl">
         {/* Left Section: Form */}
         <div className="w-full md:w-1/2 p-8">

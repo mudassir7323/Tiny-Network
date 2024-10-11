@@ -1,49 +1,12 @@
 import React from 'react';
+import Navbar from '../../Components/Navbar';
 import { Link, animateScroll as scroll } from 'react-scroll';
 
 const Home = () => {
   return (
     <div className="bg-gray-100">
-      {/* Sticky Header */}
-      <header className="bg-white shadow-md fixed top-0 left-0 w-full z-10">
-        <div className="container mx-auto p-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-blue-600">Tiny Task Network</h1>
-          <nav>
-            <ul className="flex space-x-6">
-              <li>
-                <Link
-                  to="services"
-                  smooth={true}
-                  duration={500}
-                  className="text-gray-600 hover:text-blue-600 cursor-pointer"
-                >
-                  Services
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="about"
-                  smooth={true}
-                  duration={500}
-                  className="text-gray-600 hover:text-blue-600 cursor-pointer"
-                >
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="network"
-                  smooth={true}
-                  duration={500}
-                  className="text-gray-600 hover:text-blue-600 cursor-pointer"
-                >
-                  Network
-                </Link>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </header>
+      {/* Sticky Header */}      
+      <Navbar/>
 
       {/* Hero Section */}
       <section className="h-screen flex flex-col justify-center items-center text-center bg-gradient-to-b from-blue-500 to-blue-300 text-white">
