@@ -36,7 +36,7 @@ function Signup() {
 
         {/* Seller Section */}
         <div
-        onClick={navigate("/SignupMenu")}
+        onClick={() => navigate("/SignupMenu")}
         className="group w-full md:w-80 h-auto bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition duration-300 ease-in-out cursor-pointer">
           <img
             src={SellerImage}

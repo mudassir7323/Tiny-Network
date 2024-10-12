@@ -24,7 +24,7 @@ const Main = () => {
           <Route path="Admin-login" element={<AdminLogin />} />
           <Route path="UserDashboard" element={<UserDashboard />} />
           <Route path="AdminDashboard" element={<AdminDashboard />} />
-          <Route path="SignupMenu" element={<SignupMenu />} />
+          <Route path="/SignupMenu" element={<SignupMenu />} />
 
         </Route>
       </Routes>
