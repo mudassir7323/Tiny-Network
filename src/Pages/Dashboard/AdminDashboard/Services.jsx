@@ -1,41 +1,58 @@
 import React, { useState } from "react";
+import axios from "axios"; // Import axios
+import API from "../../../variable"; // Ensure you have the correct API base URL
 
 const Services = () => {
   const [step, setStep] = useState(1); // Step-based form state
   const [serviceName, setServiceName] = useState("");
   const [description, setDescription] = useState("");
-  const [numDocuments, setNumDocuments] = useState(0);
-  const [documentNames, setDocumentNames] = useState([]);
+  const [document1Name, setDocument1Name] = useState("");
+  const [document2Name, setDocument2Name] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState(null); // State to handle API errors
+
+  // Retrieve the Admin login token from localStorage
+  const AdminLoginToken = localStorage.getItem("AdminloginToken");
 
   // Function to handle service submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here, you can handle the service submission logic (e.g., API call)
-    console.log("Service Submitted:", {
-      serviceName,
-      description,
-      documentNames,
-    });
+    setError(null); // Reset error state before submission
 
-    // Reset form fields
-    setServiceName("");
-    setDescription("");
-    setNumDocuments(0);
-    setDocumentNames([]);
-    setSubmitted(true);
-    
-    // Optionally, set a timeout to clear the submitted message
+    try {
+      const response = await axios.post(
+        `${API}/api/v1/service/create`,
+        {
+          name: serviceName,
+          description: description,
+          Document1_Name: document1Name,
+          Document2_Name: document2Name,
+        },
+        {
+          headers: {
+            "accept": "application/json",
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${AdminLoginToken}`, // Include token in Authorization header
+          },
+        }
+      );
+
+      console.log("Service created successfully:", response.data);
+      // Reset form fields after successful submission
+      setServiceName("");
+      setDescription("");
+      setDocument1Name("");
+      setDocument2Name("");
+      setSubmitted(true); // Show success message
+    } catch (error) {
+      console.error("Error creating service:", error);
+      setError("Failed to create service. Please try again."); // Show error message
+    }
+
+    // Optionally, clear success message after a few seconds
     setTimeout(() => {
       setSubmitted(false);
     }, 3000);
-  };
-
-  // Handle document name input
-  const handleDocumentNameChange = (index, value) => {
-    const newDocumentNames = [...documentNames];
-    newDocumentNames[index] = value;
-    setDocumentNames(newDocumentNames);
   };
 
   return (
@@ -79,21 +96,6 @@ const Services = () => {
                 required
               />
             </div>
-            <div>
-              <label className="block text-gray-700 mb-2">Number of Required Documents</label>
-              <input
-                type="number"
-                value={numDocuments}
-                onChange={(e) => {
-                  const value = Math.max(0, Number(e.target.value));
-                  setNumDocuments(value);
-                  setDocumentNames(new Array(value).fill("")); // Reset document names array
-                }}
-                className="border rounded-lg w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                min="0"
-                required
-              />
-            </div>
             <button
               type="button"
               onClick={() => setStep(3)}
@@ -107,19 +109,27 @@ const Services = () => {
         {/* Step 3: Document Names */}
         {step === 3 && (
           <>
-            <h2 className="text-lg font-semibold mb-2">Enter Required Document Names</h2>
-            {Array.from({ length: numDocuments }).map((_, index) => (
-              <div key={index} className="mb-2">
-                <label className="block text-gray-700 mb-1">Document {index + 1} Name</label>
-                <input
-                  type="text"
-                  value={documentNames[index] || ""}
-                  onChange={(e) => handleDocumentNameChange(index, e.target.value)}
-                  className="border rounded-lg w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  required
-                />
-              </div>
-            ))}
+            <h2 className="text-lg font-semibold mb-2">Enter Document Names</h2>
+            <div className="mb-4">
+              <label className="block text-gray-700 mb-1">Document 1 Name</label>
+              <input
+                type="text"
+                value={document1Name}
+                onChange={(e) => setDocument1Name(e.target.value)}
+                className="border rounded-lg w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 mb-1">Document 2 Name</label>
+              <input
+                type="text"
+                value={document2Name}
+                onChange={(e) => setDocument2Name(e.target.value)}
+                className="border rounded-lg w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
             <button
               type="submit"
               className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
@@ -130,10 +140,17 @@ const Services = () => {
         )}
       </form>
 
-      {/* Submission Message */}
+      {/* Submission Success Message */}
       {submitted && (
         <div className="mt-4 text-center text-green-500">
           Service added successfully!
+        </div>
+      )}
+
+      {/* Error Message */}
+      {error && (
+        <div className="mt-4 text-center text-red-500">
+          {error}
         </div>
       )}
     </div>

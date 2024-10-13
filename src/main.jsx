@@ -11,6 +11,7 @@ import BuyerSignup from './Pages/Signup/BuyerSignup/BuyerSignup';
 import Home from "./Pages/Home/Home"
 import AdminDashboard from "./Pages/Dashboard/AdminDashboard/AdminDashboard"
 import SignupMenu from './Pages/Signup/SignupMenu';
+import SignupForm from "./Pages/Signup/SignupForm"
 
 const Main = () => {
   return (
@@ -24,7 +25,8 @@ const Main = () => {
           <Route path="Admin-login" element={<AdminLogin />} />
           <Route path="UserDashboard" element={<UserDashboard />} />
           <Route path="AdminDashboard" element={<AdminDashboard />} />
-          <Route path="/SignupMenu" element={<SignupMenu />} />
+          <Route path="/SignupMenu" element={<SignupMenu />} />          
+          <Route path="/SignupForm/:serviceId" element={<SignupForm />} />
 
         </Route>
       </Routes>

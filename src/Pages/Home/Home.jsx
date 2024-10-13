@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Navbar from "../../Components/Navbar";
+import API from "../../variable"
 import image1 from "./About1.jpg";
 import image2 from "./About.avif";
 import image3 from "./image1.jpg";
 import image4 from "./image2.jpeg";
 import image5 from "./image3.webp";
 import image6 from "./image4.jpeg";
-
 
 const Home = () => {
   const networkData = [
@@ -16,6 +17,10 @@ const Home = () => {
     { title: "Ongoing Projects", value: 1400 },
   ];
 
+  // State to store services from API
+  const [services, setServices] = useState([]);
+  const [error, setError] = useState(null); // Error handling state
+
   // Array of images for the hero section
   const heroImages = [image3, image4, image5, image6];
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -24,10 +29,33 @@ const Home = () => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % heroImages.length);
-    }, 5000); // Change every 3 seconds
+    }, 5000); // Change every 5 seconds
 
     return () => clearInterval(intervalId); // Cleanup on component unmount
   }, [heroImages.length]);
+
+  // Function to fetch services from API
+  const fetchServices = async () => {
+    try {
+      const response = await axios.get(
+        `${API}/api/v1/service/get-all`,
+        {
+          headers: {
+            accept: 'application/json',
+          },
+        }
+      );
+      setServices(response.data); // Set services from the API
+    } catch (error) {
+      console.error("Error fetching services:", error);
+      setError("Failed to load services. Please try again.");
+    }
+  };
+
+  // Fetch services on component mount
+  useEffect(() => {
+    fetchServices();
+  }, []);
 
   return (
     <div className="bg-gray-100">
@@ -69,31 +97,21 @@ const Home = () => {
       <section id="services" className="py-20 bg-white">
         <div className="container mx-auto text-center">
           <h3 className="text-3xl font-semibold text-blue-600">Our Services</h3>
+          {error && <p className="text-red-500">{error}</p>} {/* Display error if services can't be fetched */}
           <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="bg-blue-100 p-6 rounded-lg shadow-md hover:bg-blue-200 transition-all duration-300">
-              <h4 className="text-xl font-semibold">Web Development</h4>
-              <p>Build responsive and modern websites.</p>
-            </div>
-            <div className="bg-green-100 p-6 rounded-lg shadow-md hover:bg-green-200 transition-all duration-300">
-              <h4 className="text-xl font-semibold">Graphic Design</h4>
-              <p>Create stunning visuals for your brand.</p>
-            </div>
-            <div className="bg-yellow-100 p-6 rounded-lg shadow-md hover:bg-yellow-200 transition-all duration-300">
-              <h4 className="text-xl font-semibold">Content Writing</h4>
-              <p>Engaging content that resonates with your audience.</p>
-            </div>
-            <div className="bg-red-100 p-6 rounded-lg shadow-md hover:bg-red-200 transition-all duration-300">
-              <h4 className="text-xl font-semibold">Digital Marketing</h4>
-              <p>Boost your online presence with effective strategies.</p>
-            </div>
-            <div className="bg-purple-100 p-6 rounded-lg shadow-md hover:bg-purple-200 transition-all duration-300">
-              <h4 className="text-xl font-semibold">SEO Services</h4>
-              <p>Improve your search engine rankings.</p>
-            </div>
-            <div className="bg-pink-100 p-6 rounded-lg shadow-md hover:bg-pink-200 transition-all duration-300">
-              <h4 className="text-xl font-semibold">Consultation</h4>
-              <p>Expert advice tailored to your needs.</p>
-            </div>
+            {services.length > 0 ? (
+              services.map((service) => (
+                <div
+                  key={service.id}
+                  className="bg-blue-100 p-6 rounded-lg shadow-md hover:bg-blue-200 transition-all duration-300"
+                >
+                  <h4 className="text-xl font-semibold">{service.name}</h4>
+                  <p>{service.description}</p>
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-700">Loading services...</p> // Show loading message if services haven't loaded
+            )}
           </div>
         </div>
       </section>
