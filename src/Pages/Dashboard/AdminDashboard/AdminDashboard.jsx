@@ -9,6 +9,7 @@ import {
 } from "react-icons/fa";
 import { IoGitPullRequestSharp } from "react-icons/io5";
 import { MdOutlineMiscellaneousServices } from "react-icons/md";
+import { IoMdLogOut } from "react-icons/io";
 import "./AdminDashboard.css";
 import UserDashboardCharts from "./AdminDashboardCharts";
 import UserDashboardStats from "./AdminDashboardStats";
@@ -16,6 +17,7 @@ import UserDashboardGeneral from "./AdminDashboardGeneral";
 import AllUsers from "./AllUsers";
 import Requests from "./Requests";
 import Services from "./Services";
+import AdminLogout from "./AdminLogout";
 
 const AdminDashboard = () => {
   const [isAsideVisible, setIsAsideVisible] = useState(false);
@@ -69,10 +71,18 @@ const AdminDashboard = () => {
             <MdOutlineMiscellaneousServices className="icon" />
             Services
           </li>
+          <li onClick={() => handleItemClick("Logout")}>
+            <IoMdLogOut className="icon" />
+            Logout
+          </li>
         </ul>
       </aside>
       <main ref={mainContentRef}>
         <div className="main-content">
+          {/* Updated Top Div with Tailwind */}
+          <div className="bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500 text-white text-center py-4 rounded-lg shadow-lg mb-4">
+            <h2 className="text-2xl font-bold">Admin Panel</h2>
+          </div>
           {(() => {
             switch (item) {
               case "General":
@@ -95,6 +105,8 @@ const AdminDashboard = () => {
                 return <Requests />;
               case "Services":
                 return <Services />;
+              case "Logout":
+                return <AdminLogout />;
               default:
                 return <div>Select an option</div>;
             }

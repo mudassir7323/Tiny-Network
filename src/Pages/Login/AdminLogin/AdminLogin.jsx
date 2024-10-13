@@ -1,35 +1,58 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
-import loginImage from "./Admin-Login-image.jpg"; // Adjust the image path as per your project structure
+import loginImage from "./Admin-Login-image.jpg"; // Ensure the path is correct
+import axios from "axios";
+import API from "../../../variable.js"; // Check if the path is correct
+
+// Function to handle login
+const LoginFunc = async (credentials) => {
+  try {
+    const response = await axios.post(`${API}/api/v1/signin`, credentials);
+    localStorage.setItem("AdminloginToken", response.data.access_token);
+    return { success: true, token: response.data.access_token };
+  } catch (error) {
+    console.error("Sign-in error:", error.response?.data || error.message);
+    return {
+      success: false,
+      message: error.response?.data?.message || "Sign-in failed",
+    };
+  }
+};
 
 const AdminLogin = () => {
-  // State for email and password
+  // State variables for email, password, error message, and loading status
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState(""); // To show error messages
+  const [errorMessage, setErrorMessage] = useState(""); // Error messages
+  const [loading, setLoading] = useState(false); // Loader state
   const navigate = useNavigate(); // Initialize useNavigate hook
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Basic validation: Check if email and password fields are filled
+    // Validate input fields
     if (!email || !password) {
       setErrorMessage("Please fill in both fields.");
-    } else if (password.length < 6) {
-      setErrorMessage("Password must be at least 6 characters long.");
-    } else {
-      // If validation passes, proceed with the login
-      setErrorMessage("");
-      console.log("Logged in with:", { email, password });
-
-      // Clear form
-      setEmail("");
-      setPassword("");
-
-      // Navigate to the dashboard or another page after login
-      // navigate('/dashboard');
+      return;
     }
+
+    setErrorMessage(""); // Clear previous error messages
+    setLoading(true); // Show loader during submission
+
+    // Prepare credentials for login
+    const credentials = { email, password };
+    const result = await LoginFunc(credentials);
+
+    if (result.success) {
+      navigate("/AdminDashboard"); // Navigate on successful login
+    } else {
+      setErrorMessage(result.message); // Display error message on failure
+    }
+
+    setLoading(false); // Hide loader after attempt
+    setEmail(""); // Clear input fields
+    setPassword("");
   };
 
   return (
@@ -49,9 +72,7 @@ const AdminLogin = () => {
           </p>
 
           {/* Error message display */}
-          {errorMessage && (
-            <div className="mb-4 text-red-500">{errorMessage}</div>
-          )}
+          {errorMessage && <div className="mb-4 text-red-500">{errorMessage}</div>}
 
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
@@ -65,6 +86,7 @@ const AdminLogin = () => {
                 onChange={(e) => setEmail(e.target.value)} // Update state on change
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"
                 placeholder="you@example.com"
+                required // Ensure field is filled
               />
             </div>
             <div className="mb-4">
@@ -78,6 +100,7 @@ const AdminLogin = () => {
                 onChange={(e) => setPassword(e.target.value)} // Update state on change
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"
                 placeholder="Enter 6 characters or more"
+                required // Ensure field is filled
               />
             </div>
             <div className="flex justify-between items-center mb-6">
@@ -85,24 +108,43 @@ const AdminLogin = () => {
                 className="text-indigo-600 hover:underline cursor-pointer"
                 onClick={() => navigate("/Forgot")} // Navigate on click
               >
-                Forgot Password
+                Forgot Password?
               </span>
-            </div>
-            <div className="flex items-center mb-6">
-              <input
-                id="remember"
-                type="checkbox"
-                className="mr-2 leading-tight"
-              />
-              <label htmlFor="remember" className="text-sm text-gray-600">
-                Remember me
-              </label>
             </div>
             <button
               type="submit"
-              className="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition duration-300"
+              className={`w-full py-2 rounded-lg transition duration-300 ${
+                loading ? "bg-gray-400 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-700"
+              } text-white`}
+              disabled={loading} // Disable button when loading
             >
-              LOGIN
+              {loading ? (
+                <div className="flex justify-center items-center">
+                  <svg
+                    className="animate-spin h-5 w-5 text-white mr-3"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                    ></path>
+                  </svg>
+                  Logging in...
+                </div>
+              ) : (
+                "LOGIN"
+              )}
             </button>
           </form>
         </div>
@@ -110,7 +152,7 @@ const AdminLogin = () => {
         {/* Right Section: Image */}
         <div className="hidden md:block md:w-1/2 bg-gray-100 p-8 justify-center items-center">
           <img
-            src={loginImage} // Correct path to the image
+            src={loginImage} // Ensure the path to the image is correct
             alt="login illustration"
             className="rounded-lg"
           />

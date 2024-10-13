@@ -15,6 +15,7 @@ aside {
   height: 100%; /* Ensure the sidebar covers full height */
   overflow-y: auto; /* Allows scrolling if content exceeds height */
   transition: transform 0.3s ease-in-out;
+  z-index: 100; /* Ensures the sidebar is always on top */
 }
 
 main {
@@ -23,11 +24,11 @@ main {
   height: 100%; /* Make main section height 100% of the viewport */
   margin-left: 25%; /* For desktop view */
   overflow: hidden; /* Hide overflow in main to prevent double scrollbars */
+  transition: margin-left 0.3s ease-in-out;
 }
 
 /* Ensure content within main can scroll if too tall */
 .main-content {
-  margin-top: 50px; /* Offset for the fixed header */
   height: calc(100% - 50px); /* Remaining height after header */
   overflow-y: auto; /* Enable vertical scrolling */
   scrollbar-width: thin; /* For Firefox */
