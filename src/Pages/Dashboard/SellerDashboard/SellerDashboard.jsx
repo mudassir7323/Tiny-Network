@@ -9,15 +9,15 @@ import {
 } from "react-icons/fa";
 import { IoMdLogOut } from "react-icons/io";
 import { MdHomeRepairService } from "react-icons/md";
-import "./UserDashboard.css";
-import UserProfile from "./UserProfile";
-import UserDashboardCharts from "./UserDashboardCharts";
-import UserDashboardStats from "./UserDashboardStats";
-import UserDashboardGeneral from "./UserDashboardGeneral";
-import UserJobs from "./UserJobs";
-import UserLogout from "./UserLogout";
+import "./SellerDashboard.css";
+import SellerProfile from "./SellerProfile";
+import SellerDashboardCharts from "./SellerDashboardCharts";
+import SellerDashboardStats from "./SellerDashboardStats";
+import SellerDashboardGeneral from "./SellerDashboardGeneral";
+import SellerJobs from "./SellerJobs";
+import SellerLogout from "./SellerLogout";
 
-const UserDashboard = () => {
+const SellerDashboard = () => {
   const [isAsideVisible, setIsAsideVisible] = useState(false);
   const [item, setItem] = useState("General");
   const mainContentRef = useRef(null);
@@ -78,23 +78,23 @@ const UserDashboard = () => {
               case "General":
                 return (
                   <div>
-                    <UserDashboardGeneral />
+                    <SellerDashboardGeneral />
                   </div>
                 );
               case "Stats":
                 return (
                   <div>
-                    <UserDashboardStats />
+                    <SellerDashboardStats />
                   </div>
                 );
               case "Visuals":
-                return <UserDashboardCharts />;
+                return <SellerDashboardCharts />;
               case "Profile":
-                return <UserProfile />;
+                return <SellerProfile />;
               case "Logout":
-                return <UserLogout />;
+                return <SellerLogout />;
               case "Jobs":
-                return <UserJobs />;
+                return <SellerJobs />;
               default:
                 return <div>Select an option</div>;
             }
@@ -105,4 +105,4 @@ const UserDashboard = () => {
   );
 };
 
-export default UserDashboard;
+export default SellerDashboard;
