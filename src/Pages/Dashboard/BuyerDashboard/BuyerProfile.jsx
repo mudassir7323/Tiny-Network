@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SellerProfile = () => {
+const BuyerProfile = () => {
   const profileData = {
     name: 'John Doe',
     jobTitle: 'Software Engineer',
@@ -41,4 +41,4 @@ const SellerProfile = () => {
   );
 };
 
-export default SellerProfile;
+export default BuyerProfile;

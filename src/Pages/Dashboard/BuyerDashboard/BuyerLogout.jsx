@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function SellerLogout() {
+function BuyerLogout() {
   const [showPopup, setShowPopup] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false); // Loader state
   const navigate = useNavigate();
@@ -64,4 +64,4 @@ function SellerLogout() {
   );
 }
 
-export default SellerLogout;
+export default BuyerLogout;

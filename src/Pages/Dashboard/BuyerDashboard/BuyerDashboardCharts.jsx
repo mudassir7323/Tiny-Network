@@ -17,7 +17,7 @@ import {
 // Register necessary components
 ChartJS.register(CategoryScale, LinearScale, ArcElement, LineElement, PointElement, BarElement, Tooltip, Legend);
 
-const SellerDashboardCharts = () => {
+const BuyerDashboardCharts = () => {
   // Sample data for the charts
   const lineChartData = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June'],
@@ -83,4 +83,4 @@ const SellerDashboardCharts = () => {
   );
 };
 
-export default SellerDashboardCharts;
+export default BuyerDashboardCharts;

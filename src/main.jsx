@@ -11,8 +11,8 @@ import BuyerSignup from './Pages/Signup/BuyerSignup/BuyerSignup';
 import Home from "./Pages/Home/Home"
 import AdminDashboard from "./Pages/Dashboard/AdminDashboard/AdminDashboard"
 import SignupMenu from './Pages/Signup/SignupMenu';
-import SignupForm from "./Pages/Signup/SignupForm"
-import SellerDashboard from "./Pages/Dashboard/SellerDashboard/SellerDashboard"
+import SignupForm from "./Pages/Signup/SignupForm";
+import BuyerDashboard from "./Pages/Dashboard/BuyerDashboard/BuyerDashboard";
 import JobDetails from './Pages/Dashboard/UserDashboard/JobDetails';
 
 const Main = () => {
@@ -30,8 +30,7 @@ const Main = () => {
           <Route path="/SignupMenu" element={<SignupMenu />} />          
           <Route path="/SignupForm/:serviceId" element={<SignupForm />} />                    
           <Route path="/Jobdetails/:JobID" element={<JobDetails />} />
-          <Route path="/SellerDashboard" element={<SellerDashboard />} />        
-
+          <Route path="/BuyerDashboard" element={<BuyerDashboard />} />        
         </Route>
       </Routes>
     </BrowserRouter>

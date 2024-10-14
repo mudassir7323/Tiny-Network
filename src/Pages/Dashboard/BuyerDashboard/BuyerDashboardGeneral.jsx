@@ -1,8 +1,8 @@
 import React from 'react';
-import SellerDashboardStats from './SellerDashboardStats';
-import SellerDashboardCharts from './SellerDashboardCharts';
+import BuyerDashboardStats from './BuyerDashboardStats';
+import BuyerDashboardCharts from './BuyerDashboardCharts';
 
-const SellerDashboardGeneral = () => {
+const BuyerDashboardGeneral = () => {
   return (
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
@@ -14,7 +14,7 @@ const SellerDashboardGeneral = () => {
         <h3 className="text-xl font-semibold mb-4 text-gray-700">
           Statistics
         </h3>
-        <SellerDashboardStats />
+        <BuyerDashboardStats />
       </div>
 
       {/* Charts Section */}
@@ -22,10 +22,10 @@ const SellerDashboardGeneral = () => {
         <h3 className="text-xl font-semibold mb-4 text-gray-700">
           Performance Charts
         </h3>
-        <SellerDashboardCharts />
+        <BuyerDashboardCharts />
       </div>
     </div>
   );
 };
 
-export default SellerDashboardGeneral;
+export default BuyerDashboardGeneral;

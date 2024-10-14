@@ -9,15 +9,15 @@ import {
 } from "react-icons/fa";
 import { IoMdLogOut } from "react-icons/io";
 import { MdHomeRepairService } from "react-icons/md";
-import "./SellerDashboard.css";
-import SellerProfile from "./SellerProfile";
-import SellerDashboardCharts from "./SellerDashboardCharts";
-import SellerDashboardStats from "./SellerDashboardStats";
-import SellerDashboardGeneral from "./SellerDashboardGeneral";
-import SellerJobs from "./SellerJobs";
-import SellerLogout from "./SellerLogout";
+import "./BuyerDashboard.css";
+import BuyerProfile from "./BuyerProfile";
+import BuyerDashboardCharts from "./BuyerDashboardCharts";
+import BuyerDashboardStats from "./BuyerDashboardStats";
+import BuyerDashboardGeneral from "./BuyerDashboardGeneral";
+import BuyerJobs from "./BuyerJobs";
+import BuyerLogout from "./BuyerLogout";
 
-const SellerDashboard = () => {
+const BuyerDashboard = () => {
   const [isAsideVisible, setIsAsideVisible] = useState(false);
   const [item, setItem] = useState("General");
   const mainContentRef = useRef(null);
@@ -63,7 +63,7 @@ const SellerDashboard = () => {
           </li>
           <li onClick={() => handleItemClick("Jobs")}>
             <MdHomeRepairService className="icon" />
-            Jobs
+            Listings
           </li>
           <li onClick={() => handleItemClick("Logout")}>
             <IoMdLogOut className="icon" />
@@ -78,23 +78,23 @@ const SellerDashboard = () => {
               case "General":
                 return (
                   <div>
-                    <SellerDashboardGeneral />
+                    <BuyerDashboardGeneral />
                   </div>
                 );
               case "Stats":
                 return (
                   <div>
-                    <SellerDashboardStats />
+                    <BuyerDashboardStats />
                   </div>
                 );
               case "Visuals":
-                return <SellerDashboardCharts />;
+                return <BuyerDashboardCharts />;
               case "Profile":
-                return <SellerProfile />;
+                return <BuyerProfile />;
               case "Logout":
-                return <SellerLogout />;
+                return <BuyerLogout />;
               case "Jobs":
-                return <SellerJobs />;
+                return <BuyerJobs />;
               default:
                 return <div>Select an option</div>;
             }
@@ -105,4 +105,4 @@ const SellerDashboard = () => {
   );
 };
 
-export default SellerDashboard;
+export default BuyerDashboard;

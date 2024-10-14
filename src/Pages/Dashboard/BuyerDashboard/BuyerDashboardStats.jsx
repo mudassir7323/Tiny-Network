@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SellerDashboardStats = () => {
+const BuyerDashboardStats = () => {
   // Sample data for freelancer statistics
   const stats = [
     {
@@ -51,4 +51,4 @@ const SellerDashboardStats = () => {
   );
 };
 
-export default SellerDashboardStats;
+export default BuyerDashboardStats;
