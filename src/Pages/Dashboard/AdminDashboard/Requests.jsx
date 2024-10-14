@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import API from "../../../variable";
 
 const Requests = () => {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   // Function to fetch user requests from the API
   const fetchRequests = async () => {
     try {
       const response = await axios.get(
-        "https://tinytasksnetwork.duckdns.org/api/v1/users/unauthorized/all",
+        `${API}/api/v1/users/unauthorized/all`,
         {
           headers: {
             accept: "application/json",
@@ -20,7 +23,7 @@ const Requests = () => {
       );
 
       console.log(response);
-      
+
       // Map the API response to the requests state
       const formattedRequests = response.data.map((user) => ({
         id: user.id, // Using the user ID from the API response
@@ -47,7 +50,7 @@ const Requests = () => {
   const handleAccept = async (userId) => {
     try {
       await axios.post(
-        `https://tinytasksnetwork.duckdns.org/api/v1/user/authorise?user_id=${userId}`,
+        `${API}/api/v1/user/authorise?user_id=${userId}`,
         {},
         {
           headers: {
@@ -56,7 +59,7 @@ const Requests = () => {
           },
         }
       );
-      setRequests(requests.filter((request) => request.id !== userId));
+      setRequests(requests.filter((request) => request.id !== userId)); // Update state by removing the accepted request
       console.log(`Accepted request from user ${userId}`);
     } catch (error) {
       console.error("Error accepting request:", error);
@@ -67,7 +70,7 @@ const Requests = () => {
   const handleIgnore = async (userId) => {
     try {
       await axios.delete(
-        `https://tinytasksnetwork.duckdns.org/api/v1/unauthorized/${userId}`,
+        `${API}/api/v1/unauthorized/${userId}`,
         {
           headers: {
             accept: "application/json",
@@ -75,7 +78,7 @@ const Requests = () => {
           },
         }
       );
-      setRequests(requests.filter((request) => request.id !== userId));
+      setRequests(requests.filter((request) => request.id !== userId)); // Update state by removing the ignored request
       console.log(`Ignored request from user ${userId}`);
     } catch (error) {
       console.error("Error ignoring request:", error);
@@ -90,6 +93,10 @@ const Requests = () => {
     return <p>{error}</p>;
   }
 
+  const handleClickUser = (id) => {
+    navigate(`/UserGeneralProfile/${id}`);
+  };
+
   return (
     <div className="p-6">
       <h1 className="text-3xl font-bold mb-6 text-center">User Requests</h1>
@@ -101,7 +108,7 @@ const Requests = () => {
             key={request.id}
             className="bg-white shadow-md rounded-lg p-4 flex flex-col justify-between"
           >
-            <div>
+            <div className="cursor-pointer" onClick={() => handleClickUser(request.id)}>
               <h2 className="text-xl font-semibold mb-2">{request.username}</h2>
               <p className="text-gray-600 mb-4">
                 Service Requested: {request.service}

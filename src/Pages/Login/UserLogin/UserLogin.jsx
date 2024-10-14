@@ -3,13 +3,14 @@ import { useNavigate } from "react-router-dom"; // Import useNavigate for naviga
 import loginImage from "./User-Login-image.jpg"; // Ensure the path is correct
 import axios from "axios";
 import API from "../../../variable.js"; // Check if the path is correct
+import Navbar from "../../../Components/Navbar.jsx";
 
 // Function to handle login
 const LoginFunc = async (credentials) => {
   try {
     const response = await axios.post(`${API}/api/v1/signin`, credentials);
     localStorage.setItem("UserloginToken", response.data.access_token);
-    return { success: true, token: response.data.access_token };
+    return { success: true, token: response.data.access_token, res: response };
   } catch (error) {
     console.error("Sign-in error:", error.response?.data || error.message);
     return {
@@ -45,7 +46,19 @@ const UserLogin = () => {
     const result = await LoginFunc(credentials);
 
     if (result.success) {
-      navigate("/UserDashboard"); // Navigate on successful login
+      switch (result.response.data.category) {
+        case "Buyer":
+          navigate("/BuyerDashboard");
+          break;
+
+        case "Seller":
+          navigate("/UserDashboard");
+          break;
+        default:
+          break;
+      }
+
+      // navigate("/UserDashboard");
     } else {
       setErrorMessage(result.message); // Display error message on failure
     }
@@ -57,6 +70,7 @@ const UserLogin = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-indigo-600 to-purple-600">
+      <Navbar />
       <div className="bg-white rounded-lg shadow-lg overflow-hidden flex w-4/5 max-w-4xl">
         {/* Left Section: Form */}
         <div className="w-full md:w-1/2 p-8">
@@ -72,7 +86,9 @@ const UserLogin = () => {
           </p>
 
           {/* Error message display */}
-          {errorMessage && <div className="mb-4 text-red-500">{errorMessage}</div>}
+          {errorMessage && (
+            <div className="mb-4 text-red-500">{errorMessage}</div>
+          )}
 
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
@@ -114,7 +130,9 @@ const UserLogin = () => {
             <button
               type="submit"
               className={`w-full py-2 rounded-lg transition duration-300 ${
-                loading ? "bg-gray-400 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-700"
+                loading
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-indigo-600 hover:bg-indigo-700"
               } text-white`}
               disabled={loading} // Disable button when loading
             >

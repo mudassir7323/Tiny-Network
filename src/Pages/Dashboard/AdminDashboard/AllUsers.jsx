@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import API from "../../../variable"; // Ensure this is the correct import for your API base URL
+import { useNavigate } from "react-router-dom";
 
 const AllUsers = () => {
   const [users, setUsers] = useState([]); // Initialize users as an empty array
@@ -8,6 +9,7 @@ const AllUsers = () => {
   const [loading, setLoading] = useState(true); // State to manage loading
   const [error, setError] = useState(null); // State for error handling
   const AdminLoginToken = localStorage.getItem("AdminloginToken");
+  const navigate = useNavigate();
 
   // Function to fetch users from API
   const fetchUsers = async () => {
@@ -21,10 +23,11 @@ const AllUsers = () => {
           accept: "application/json", // Set the accept header
         },
       });
-      
+
+      console.log(response);
+
       // Ensure we safely access the data and set it
-      setUsers(response.data || []); 
-      
+      setUsers(response.data || []);
     } catch (error) {
       console.error("Error fetching users:", error);
       setError("Failed to fetch users. Please try again."); // Set error state
@@ -38,16 +41,22 @@ const AllUsers = () => {
     fetchUsers();
   }, []);
 
-  // Function to delete a user (currently just updates local state)
+  // Function to delete a user with confirmation
   const deleteUser = async (id) => {
+    const confirmation = window.confirm("Are you sure you want to delete this user?");
+    if (!confirmation) return;
+
     try {
       setLoading(true); // Set loading to true before making the request
-      const response = await axios.delete(`${API}/api/v1/${id}`, {
+      await axios.delete(`${API}/api/v1/${id}`, {
         headers: {
           Authorization: `Bearer ${AdminLoginToken}`, // Include the token in the Authorization header
           accept: "application/json", // Set the accept header
         },
       });
+
+      // After successful deletion, update the local state by removing the deleted user
+      setUsers((prevUsers) => prevUsers.filter((user) => user.id !== id));
     } catch (error) {
       console.error("Error deleting user:", error);
       setError("Failed to delete user. Please try again."); // Set error state
@@ -55,7 +64,11 @@ const AllUsers = () => {
       setLoading(false); // Set loading to false when operation completes
     }
   };
-  
+
+  // Navigate to the user profile on clicking
+  const handleClickUser = (id) => {
+    navigate(`/UserGeneralProfile/${id}`);
+  };
 
   return (
     <div className="p-6">
@@ -93,7 +106,7 @@ const AllUsers = () => {
                   key={user.id}
                   className="bg-white shadow-md rounded-lg p-4 flex flex-col justify-between h-full"
                 >
-                  <div>
+                  <div onClick={() => handleClickUser(user.id)} className="cursor-pointer">
                     <h2 className="text-xl font-semibold mb-2">
                       {user.username || "Unknown User"}
                     </h2>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import API from "../../variable";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import API from "../../variable";
 
 const SignupForm = () => {
   const [formData, setFormData] = useState({
@@ -48,8 +48,9 @@ const SignupForm = () => {
   const handleChange = (e) => {
     const { name, value, type } = e.target;
 
+    // Ensure file inputs are being handled correctly as raw file objects
     if (type === "file") {
-      const file = e.target.files[0];
+      const file = e.target.files[0]; // Get the file object
       setFormData((prevData) => ({
         ...prevData,
         [name]: file,
@@ -65,26 +66,28 @@ const SignupForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Create a new FormData instance for file and text data
     const requestData = new FormData();
     requestData.append("username", formData.email.split("@")[0]);
     requestData.append("email", formData.email);
     requestData.append("firstName", formData.firstName);
     requestData.append("lastName", formData.lastName);
     requestData.append("dob", formData.dateOfBirth);
-    requestData.append("icon", formData.profilePicture);
+    requestData.append("icon", formData.profilePicture); // Append file without converting to binary
     requestData.append("password", formData.password);
-    requestData.append("Document1", formData.document1);
-    requestData.append("Document2", formData.document2);
+    requestData.append("Document1", formData.document1); // Append file without converting to binary
+    requestData.append("Document2", formData.document2); // Append file without converting to binary
     requestData.append("serviceId", serviceId);
 
     try {
+      // Make a POST request to submit the form data
       const response = await axios.post(
         `${API}/api/v1/auth/signup/seller`,
         requestData,
         {
           headers: {
             accept: "application/json",
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "multipart/form-data", // Ensure correct headers for file upload
           },
         }
       );

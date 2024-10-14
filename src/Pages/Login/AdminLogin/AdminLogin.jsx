@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"; // Import useNavigate for naviga
 import loginImage from "./Admin-Login-image.jpg"; // Ensure the path is correct
 import axios from "axios";
 import API from "../../../variable.js"; // Check if the path is correct
+import Navbar from "../../../Components/Navbar.jsx"
 
 // Function to handle login
 const LoginFunc = async (credentials) => {
@@ -57,6 +58,7 @@ const AdminLogin = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-indigo-600 to-purple-600">
+      <Navbar/>
       <div className="bg-white rounded-lg shadow-lg overflow-hidden flex w-4/5 max-w-4xl">
         {/* Left Section: Form */}
         <div className="w-full md:w-1/2 p-8">
