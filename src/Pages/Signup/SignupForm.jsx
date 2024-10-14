@@ -10,51 +10,33 @@ const SignupForm = () => {
     email: "",
     password: "",
     confirmPassword: "",
-    gender: "",
     dateOfBirth: "",
-    profilePicture: "",
-    // Dynamic fields will be added here later
+    profilePicture: null,
+    document1: null,
+    document2: null,
   });
 
-  const [dynamicFields, setDynamicFields] = useState([]);
-  const [serviceName, setServiceName] = useState("");
+  const [dynamicLabels, setDynamicLabels] = useState({
+    document1Label: "Document 1",
+    document2Label: "Document 2",
+  });
   const { serviceId } = useParams();
+  const [serviceName, setServiceName] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchDynamicFields = async () => {
       try {
         const response = await axios.get(
           `${API}/api/v1/get/signup/form?serviceID=${serviceId}`,
-          {
-            headers: {
-              accept: "application/json",
-            },
-          }
+          { headers: { accept: "application/json" } }
         );
 
-        // Set service name from API response
         setServiceName(response.data?.name || "");
-
-        // Extract dynamic fields from the response that start with "Document"
-        const documentFields = Object.keys(response.data).filter((key) =>
-          key.startsWith("Document")
-        );
-
-        // Create an array of objects for dynamic fields
-        const dynamicFieldsData = documentFields.map((key) => ({
-          name: key,
-          label: response.data[key], // Use the value as the label for the input field
-          type: "file", // Assuming these are file inputs
-        }));
-
-        setDynamicFields(dynamicFieldsData);
-
-        // Initialize formData for dynamic fields
-        const initialFormData = { ...formData };
-        dynamicFieldsData.forEach((field) => {
-          initialFormData[field.name] = ""; // Initialize each dynamic field
+        setDynamicLabels({
+          document1Label: response.data?.Document1_Name || "Document 1",
+          document2Label: response.data?.Document2_Name || "Document 2",
         });
-        setFormData(initialFormData);
       } catch (error) {
         console.error("Error fetching dynamic fields:", error);
       }
@@ -64,23 +46,54 @@ const SignupForm = () => {
   }, [serviceId]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    const { name, value, type } = e.target;
+
+    if (type === "file") {
+      const file = e.target.files[0];
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: file,
+      }));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Perform form validation and submission logic here
+
+    const requestData = new FormData();
+    requestData.append("username", formData.email.split("@")[0]);
+    requestData.append("email", formData.email);
+    requestData.append("firstName", formData.firstName);
+    requestData.append("lastName", formData.lastName);
+    requestData.append("dob", formData.dateOfBirth);
+    requestData.append("icon", formData.profilePicture);
+    requestData.append("password", formData.password);
+    requestData.append("Document1", formData.document1);
+    requestData.append("Document2", formData.document2);
+    requestData.append("serviceId", serviceId);
+
     try {
-      const response = await axios.post(`${API}/api/v1/signup`, { ...formData, serviceId });
+      const response = await axios.post(
+        `${API}/api/v1/auth/signup/seller`,
+        requestData,
+        {
+          headers: {
+            accept: "application/json",
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
       console.log("Signup successful:", response.data);
-      // Handle successful signup (e.g., redirect or show a message)
+      // Handle successful signup (e.g., redirect or show a success message)
     } catch (error) {
       console.error("Error submitting form:", error);
-      // Handle error case
+      setError("An error occurred while submitting the form.");
     }
   };
 
@@ -91,6 +104,8 @@ const SignupForm = () => {
         onSubmit={handleSubmit}
         className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md"
       >
+        {error && <div className="mb-4 text-red-500">{error}</div>}
+
         {/* First Name */}
         <div className="mb-4">
           <label className="block text-gray-700 font-bold mb-2">First Name</label>
@@ -156,23 +171,6 @@ const SignupForm = () => {
           />
         </div>
 
-        {/* Gender */}
-        <div className="mb-4">
-          <label className="block text-gray-700 font-bold mb-2">Gender</label>
-          <select
-            name="gender"
-            value={formData.gender}
-            onChange={handleChange}
-            required
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-          >
-            <option value="">Select Gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-
         {/* Date of Birth */}
         <div className="mb-4">
           <label className="block text-gray-700 font-bold mb-2">Date of Birth</label>
@@ -194,22 +192,33 @@ const SignupForm = () => {
             name="profilePicture"
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+            required
           />
         </div>
 
-        {/* Dynamic Fields */}
-        {dynamicFields.map((field, index) => (
-          <div key={index} className="mb-4">
-            <label className="block text-gray-700 font-bold mb-2">{field.label}</label>
-            <input
-              type={field.type}
-              name={field.name}
-              value={formData[field.name] || ""}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-            />
-          </div>
-        ))}
+        {/* Document 1 */}
+        <div className="mb-4">
+          <label className="block text-gray-700 font-bold mb-2">{dynamicLabels.document1Label}</label>
+          <input
+            type="file"
+            name="document1"
+            onChange={handleChange}
+            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+            required
+          />
+        </div>
+
+        {/* Document 2 */}
+        <div className="mb-4">
+          <label className="block text-gray-700 font-bold mb-2">{dynamicLabels.document2Label}</label>
+          <input
+            type="file"
+            name="document2"
+            onChange={handleChange}
+            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+            required
+          />
+        </div>
 
         {/* Submit Button */}
         <div className="mb-4">

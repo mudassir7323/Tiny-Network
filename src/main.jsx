@@ -13,6 +13,7 @@ import AdminDashboard from "./Pages/Dashboard/AdminDashboard/AdminDashboard"
 import SignupMenu from './Pages/Signup/SignupMenu';
 import SignupForm from "./Pages/Signup/SignupForm"
 import SellerDashboard from "./Pages/Dashboard/SellerDashboard/SellerDashboard"
+import JobDetails from './Pages/Dashboard/UserDashboard/JobDetails';
 
 const Main = () => {
   return (
@@ -27,7 +28,8 @@ const Main = () => {
           <Route path="UserDashboard" element={<UserDashboard />} />
           <Route path="AdminDashboard" element={<AdminDashboard />} />
           <Route path="/SignupMenu" element={<SignupMenu />} />          
-          <Route path="/SignupForm/:serviceId" element={<SignupForm />} />
+          <Route path="/SignupForm/:serviceId" element={<SignupForm />} />                    
+          <Route path="/Jobdetails/:JobID" element={<JobDetails />} />
           <Route path="/SellerDashboard" element={<SellerDashboard />} />        
 
         </Route>

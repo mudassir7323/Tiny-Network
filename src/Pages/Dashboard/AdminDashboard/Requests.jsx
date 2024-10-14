@@ -1,26 +1,94 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 const Requests = () => {
-  // Dummy requests data
-  const [requests, setRequests] = useState([
-    { id: 1, user: "Alice Johnson", service: "Web Development" },
-    { id: 2, user: "Bob Smith", service: "Graphic Design" },
-    { id: 3, user: "Charlie Brown", service: "Data Analysis" },
-  ]);
+  const [requests, setRequests] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Function to fetch user requests from the API
+  const fetchRequests = async () => {
+    try {
+      const response = await axios.get(
+        "https://tinytasksnetwork.duckdns.org/api/v1/users/unauthorized/all",
+        {
+          headers: {
+            accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("AdminloginToken")}`, // Assuming token is stored in localStorage
+          },
+        }
+      );
+
+      console.log(response);
+      
+      // Map the API response to the requests state
+      const formattedRequests = response.data.map((user) => ({
+        id: user.id, // Using the user ID from the API response
+        username: user.username,
+        createdOn: new Date(user.created_on).toLocaleString(), // Format the date for display
+        icon: user.icon, // Assuming this is a URL to the user's profile picture
+        service: user.service || "No service listed",
+      }));
+
+      setRequests(formattedRequests);
+    } catch (error) {
+      setError("Failed to fetch user requests.");
+      console.error("Error fetching user requests:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchRequests();
+  }, []);
 
   // Function to handle request acceptance
-  const handleAccept = (id) => {
-    setRequests(requests.filter((request) => request.id !== id));
-    // Logic for accepting a request can go here (e.g., updating a database)
-    console.log(`Accepted request from ${id}`);
+  const handleAccept = async (userId) => {
+    try {
+      await axios.post(
+        `https://tinytasksnetwork.duckdns.org/api/v1/user/authorise?user_id=${userId}`,
+        {},
+        {
+          headers: {
+            accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("AdminloginToken")}`,
+          },
+        }
+      );
+      setRequests(requests.filter((request) => request.id !== userId));
+      console.log(`Accepted request from user ${userId}`);
+    } catch (error) {
+      console.error("Error accepting request:", error);
+    }
   };
 
   // Function to handle request ignoring
-  const handleIgnore = (id) => {
-    setRequests(requests.filter((request) => request.id !== id));
-    // Logic for ignoring a request can go here (e.g., updating a database)
-    console.log(`Ignored request from ${id}`);
+  const handleIgnore = async (userId) => {
+    try {
+      await axios.delete(
+        `https://tinytasksnetwork.duckdns.org/api/v1/unauthorized/${userId}`,
+        {
+          headers: {
+            accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("AdminloginToken")}`,
+          },
+        }
+      );
+      setRequests(requests.filter((request) => request.id !== userId));
+      console.log(`Ignored request from user ${userId}`);
+    } catch (error) {
+      console.error("Error ignoring request:", error);
+    }
   };
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
 
   return (
     <div className="p-6">
@@ -34,8 +102,16 @@ const Requests = () => {
             className="bg-white shadow-md rounded-lg p-4 flex flex-col justify-between"
           >
             <div>
-              <h2 className="text-xl font-semibold mb-2">{request.user}</h2>
-              <p className="text-gray-600 mb-4">Service Requested: {request.service}</p>
+              <h2 className="text-xl font-semibold mb-2">{request.username}</h2>
+              <p className="text-gray-600 mb-4">
+                Service Requested: {request.service}
+              </p>
+              <p className="text-gray-600 mb-4">
+                Created On: {request.createdOn}
+              </p>
+              {request.icon && (
+                <img src={request.icon} alt={`${request.username}'s icon`} className="w-12 h-12 rounded-full" />
+              )}
             </div>
             <div className="flex justify-between mt-4">
               <button
