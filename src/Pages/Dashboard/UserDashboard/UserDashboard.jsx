@@ -12,6 +12,8 @@ import UserProfile from "./UserProfile";
 import UserDashboardCharts from "./UserDashboardCharts";
 import UserDashboardStats from "./UserDashboardStats"
 import UserDashboardGeneral from "./UserDashboardGeneral";
+import UserJobs from "./UserJobs";
+import UserLogout from "./UserLogout"
 
 const UserDashboard = () => {
   const [isAsideVisible, setIsAsideVisible] = useState(false);
@@ -57,6 +59,14 @@ const UserDashboard = () => {
             <FaUser className="icon" />
             Profile
           </li>
+          <li onClick={() => handleItemClick("Logout")}>
+            <FaUser className="icon" />
+            Logout
+          </li>
+          <li onClick={() => handleItemClick("Jobs")}>
+            <FaUser className="icon" />
+            Jobs
+          </li>
         </ul>
       </aside>
       <main ref={mainContentRef}>
@@ -71,6 +81,10 @@ const UserDashboard = () => {
                 return <UserDashboardCharts />;
               case "Profile":
                 return <UserProfile />;
+                case "Logout":
+                return <UserLogout />;
+                case "Jobs":
+                return <UserJobs/>;
               default:
                 return <div>Select an option</div>;
             }
