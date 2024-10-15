@@ -16,6 +16,7 @@ import JobDetails from './Pages/Dashboard/UserDashboard/JobDetails';
 import UserGeneralProfile from './Pages/Dashboard/AdminDashboard/UserGeneralProfile';
 import Login from './Pages/Login/Login';
 import UserLogin from "./Pages/Login/UserLogin/UserLogin";
+import UserGeneralProfile2 from './Pages/Dashboard/AdminDashboard/UserGeneralProfile2';
 
 const Main = () => {
   return (
@@ -34,7 +35,8 @@ const Main = () => {
           <Route path="/SignupForm/:serviceId" element={<SignupForm />} />                    
           <Route path="/Jobdetails/:JobID" element={<JobDetails />} />
           <Route path="/BuyerDashboard" element={<BuyerDashboard />} /> 
-          <Route path="/UserGeneralProfile/:UserID" element={<UserGeneralProfile />} />       
+          <Route path="/UserGeneralProfile/:id" element={<UserGeneralProfile />} />
+          <Route path="/UserGeneralProfile2/:id" element={<UserGeneralProfile2 />} />            
         </Route>
       </Routes>
     </BrowserRouter>

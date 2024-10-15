@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import API from "../../../variable";
 
-const UserGeneralProfile = () => {
+const UserGeneralProfile2 = () => {
   const { id } = useParams(); // Get the user ID from the URL params
   const [userData, setUserData] = useState(null); // State to store user data
   const [error, setError] = useState(null); // State to handle any errors
@@ -16,7 +16,7 @@ const UserGeneralProfile = () => {
       try {
         console.log(id);
         
-        const response = await axios.get(`${API}/api/v1/getUser/${id}`, {
+        const response = await axios.get(`${API}/api/v1/users/unauthorized/${id}`, {
           headers: { 
             accept: 'application/json',
             Authorization: `Bearer ${localStorage.getItem("AdminloginToken")}`
@@ -154,4 +154,4 @@ const UserGeneralProfile = () => {
   );
 };
 
-export default UserGeneralProfile;
+export default UserGeneralProfile2;

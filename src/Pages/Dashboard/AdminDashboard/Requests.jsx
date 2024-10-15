@@ -30,7 +30,7 @@ const Requests = () => {
         username: user.username,
         createdOn: new Date(user.created_on).toLocaleString(), // Format the date for display
         icon: user.icon, // Assuming this is a URL to the user's profile picture
-        service: user.service || "No service listed",
+        serviceName: user.serviceName || "No service listed",
       }));
 
       setRequests(formattedRequests);
@@ -111,7 +111,8 @@ const Requests = () => {
             <div className="cursor-pointer" onClick={() => handleClickUser(request.id)}>
               <h2 className="text-xl font-semibold mb-2">{request.username}</h2>
               <p className="text-gray-600 mb-4">
-                Service Requested: {request.service}
+                Service Requested: {request.serviceName}
+                
               </p>
               <p className="text-gray-600 mb-4">
                 Created On: {request.createdOn}

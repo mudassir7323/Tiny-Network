@@ -46,7 +46,10 @@ const UserLogin = () => {
     const result = await LoginFunc(credentials);
 
     if (result.success) {
+      
+      console.log(result.response);
       switch (result.response.data.category) {
+        
         case "Buyer":
           navigate("/BuyerDashboard");
           break;

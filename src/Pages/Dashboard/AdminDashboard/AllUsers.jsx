@@ -67,7 +67,7 @@ const AllUsers = () => {
 
   // Navigate to the user profile on clicking
   const handleClickUser = (id) => {
-    navigate(`/UserGeneralProfile/${id}`);
+    navigate(`/UserGeneralProfile/${id}`);    
   };
 
   return (
