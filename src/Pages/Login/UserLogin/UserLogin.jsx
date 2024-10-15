@@ -9,8 +9,11 @@ import Navbar from "../../../Components/Navbar.jsx";
 const LoginFunc = async (credentials) => {
   try {
     const response = await axios.post(`${API}/api/v1/signin`, credentials);
+    
+    // Save the token and category in localStorage
     localStorage.setItem("UserloginToken", response.data.access_token);
-    return { success: true, token: response.data.access_token, res: response };
+    localStorage.setItem("UserCategory", response.data.category); // Save category for later use
+    return { success: true, response }; // Return the entire response for category check
   } catch (error) {
     console.error("Sign-in error:", error.response?.data || error.message);
     return {
@@ -46,22 +49,19 @@ const UserLogin = () => {
     const result = await LoginFunc(credentials);
 
     if (result.success) {
+      const category = result.response.data.category; // Get category from the response
       
-      console.log(result.response);
-      switch (result.response.data.category) {
-        
+      switch (category) {
         case "Buyer":
           navigate("/BuyerDashboard");
           break;
-
         case "Seller":
           navigate("/UserDashboard");
           break;
         default:
+          setErrorMessage("User category is not recognized.");
           break;
       }
-
-      // navigate("/UserDashboard");
     } else {
       setErrorMessage(result.message); // Display error message on failure
     }

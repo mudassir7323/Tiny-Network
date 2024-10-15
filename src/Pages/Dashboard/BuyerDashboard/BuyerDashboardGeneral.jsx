@@ -6,7 +6,7 @@ const BuyerDashboardGeneral = () => {
   return (
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
-        Freelancer Overview
+        Buyer Overview
       </h2>
 
       {/* Stats Cards */}

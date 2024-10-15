@@ -13,7 +13,7 @@ function SellerLogout() {
     // Simulate logout delay (e.g., an API call can be placed here)
     setTimeout(() => {
       localStorage.removeItem("UserloginToken"); // Remove token
-      navigate("/Admin-Login"); // Redirect after logout
+      navigate("/User-login"); // Redirect after logout
       setIsLoggingOut(false); // Hide loader after logout is complete
     }, 2000); // Simulating 2 seconds delay
   };
