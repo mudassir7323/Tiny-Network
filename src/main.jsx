@@ -39,8 +39,8 @@ const Main = () => {
           <Route path="/BuyerDashboard" element={<ProtectedRoutesUser element={<BuyerDashboard />} />} />
           <Route path="UserDashboard" element={<ProtectedRoutesUser element={<UserDashboard />} />} />                    
           <Route path="/Jobdetails/:JobID" element={<ProtectedRoutesUser element={<JobDetails />} />} />
-          <Route path="/UserGeneralProfile/:id" element={<ProtectedRoutesUser element={<UserGeneralProfile />} />} />
-          <Route path="/UserGeneralProfile2/:id" element={<ProtectedRoutesUser element={<UserGeneralProfile2 />} />} />            
+          <Route path="/UserGeneralProfile/:id" element={<ProtectedRoutesAdmin element={<UserGeneralProfile />} />} />
+          <Route path="/UserGeneralProfile2/:id" element={<ProtectedRoutesAdmin element={<UserGeneralProfile2 />} />} />            
         </Route>
       </Routes>
     </BrowserRouter>
