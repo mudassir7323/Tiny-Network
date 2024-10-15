@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import Navbar from "../../../Components/Navbar";
 import API from "../../../variable"; // Ensure this imports your API base URL
+import { useNavigate } from "react-router-dom";
 
 function BuyerSignup() {
   const [formData, setFormData] = useState({
@@ -13,6 +14,8 @@ function BuyerSignup() {
     dob: "",
     profilePicture: null,
   });
+
+  const navigate = useNavigate();
 
   // Handle input changes
   const handleChange = (e) => {
@@ -60,6 +63,7 @@ function BuyerSignup() {
       );
 
       console.log("Signup successful:", response.data);
+      navigate("/User-login");
       // Handle successful signup (e.g., redirect or show a success message)
     } catch (error) {
       console.error("Error submitting form:", error);

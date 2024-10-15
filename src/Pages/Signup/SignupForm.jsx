@@ -3,6 +3,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import API from "../../variable";
 import Navbar from "../../Components/Navbar"
+import { useNavigate } from "react-router-dom";
 
 const SignupForm = () => {
   const [formData, setFormData] = useState({
@@ -16,6 +17,8 @@ const SignupForm = () => {
     document1: null,
     document2: null,
   });
+
+  const navigate = useNavigate();
 
   const [dynamicLabels, setDynamicLabels] = useState({
     document1Label: "Document 1",
@@ -94,11 +97,13 @@ const SignupForm = () => {
       );
 
       console.log("Signup successful:", response.data);
+      navigate("/User-login")
+      
       // Handle successful signup (e.g., redirect or show a success message)
     } catch (error) {
       console.error("Error submitting form:", error);
       setError("An error occurred while submitting the form.");
-    }
+    } 
   };
 
   return (
