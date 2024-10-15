@@ -1,6 +1,5 @@
 import React from 'react';
 import UserDashboardStats from './UserDashboardStats';
-import UserDashboardCharts from './UserDashboardCharts';
 
 const UserDashboardGeneral = () => {
   return (
@@ -15,14 +14,6 @@ const UserDashboardGeneral = () => {
           Statistics
         </h3>
         <UserDashboardStats />
-      </div>
-
-      {/* Charts Section */}
-      <div>
-        <h3 className="text-xl font-semibold mb-4 text-gray-700">
-          Performance Charts
-        </h3>
-        <UserDashboardCharts />
       </div>
     </div>
   );

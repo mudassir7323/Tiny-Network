@@ -1,6 +1,5 @@
 import React from 'react';
 import BuyerDashboardStats from './BuyerDashboardStats';
-import BuyerDashboardCharts from './BuyerDashboardCharts';
 
 const BuyerDashboardGeneral = () => {
   return (
@@ -17,13 +16,6 @@ const BuyerDashboardGeneral = () => {
         <BuyerDashboardStats />
       </div>
 
-      {/* Charts Section */}
-      <div>
-        <h3 className="text-xl font-semibold mb-4 text-gray-700">
-          Performance Charts
-        </h3>
-        <BuyerDashboardCharts />
-      </div>
     </div>
   );
 };

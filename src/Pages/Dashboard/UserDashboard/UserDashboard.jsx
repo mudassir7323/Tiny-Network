@@ -11,7 +11,6 @@ import { IoMdLogOut } from "react-icons/io";
 import { MdHomeRepairService } from "react-icons/md";
 import "./UserDashboard.css";
 import UserProfile from "./UserProfile";
-import UserDashboardCharts from "./UserDashboardCharts";
 import UserDashboardStats from "./UserDashboardStats";
 import UserDashboardGeneral from "./UserDashboardGeneral";
 import UserJobs from "./UserJobs";
@@ -53,10 +52,6 @@ const UserDashboard = () => {
             <FaChartBar className="icon" />
             Stats
           </li>
-          <li onClick={() => handleItemClick("Visuals")}>
-            <FaChartPie className="icon" />
-            Visuals
-          </li>
           <li onClick={() => handleItemClick("Profile")}>
             <FaUser className="icon" />
             Profile
@@ -87,8 +82,7 @@ const UserDashboard = () => {
                     <UserDashboardStats />
                   </div>
                 );
-              case "Visuals":
-                return <UserDashboardCharts />;
+              
               case "Profile":
                 return <UserProfile />;
               case "Logout":

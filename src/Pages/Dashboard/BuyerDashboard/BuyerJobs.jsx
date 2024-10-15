@@ -1,43 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faTrashAlt, faTimes } from '@fortawesome/free-solid-svg-icons';
+import API from '../../../variable'; // Your API URL
 
 function BuyerJobs() {
-  const [jobs, setJobs] = useState([
-    {
-      id: 1,
-      title: 'Web Development',
-      description: 'Build a responsive website',
-      requirements: 'HTML, CSS, JavaScript',
-      status: 'Pending',
-    },
-    {
-      id: 2,
-      title: 'Graphic Design',
-      description: 'Design a company logo',
-      requirements: 'Adobe Illustrator, Creativity',
-      status: 'Completed',
-    },
-  ]);
-
+  const [jobs, setJobs] = useState([]);
   const [newJob, setNewJob] = useState({ title: '', description: '', requirements: '' });
   const [showForm, setShowForm] = useState(false);
   const [selectedJob, setSelectedJob] = useState(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [jobToDelete, setJobToDelete] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Fetch jobs from the API
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const response = await axios.get(`${API}/api/v1/jobs`, {
+          headers: { 
+            Authorization: `Bearer ${localStorage.getItem("UserloginToken")}`,
+            accept: 'application/json'
+          }
+        });
+        setJobs(response.data);
+      } catch (error) {
+        setError('Failed to fetch jobs.');
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchJobs();
+  }, []);
 
   const handleJobClick = (job) => {
     setSelectedJob(job);
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    const newJobData = {
-      ...newJob,
-      id: jobs.length + 1,
-      status: 'Pending', // All new jobs start as pending
-    };
-    setJobs([...jobs, newJobData]);
-    setNewJob({ title: '', description: '', requirements: '' });
-    setShowForm(false);
+    try {
+      const response = await axios.post(`${API}/api/v1/jobs`, newJob, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("UserloginToken")}`,
+          accept: 'application/json',
+        },
+      });
+      setJobs([...jobs, response.data]); // Update jobs list
+      setNewJob({ title: '', description: '', requirements: '' });
+      setShowForm(false);
+    } catch (error) {
+      setError('Failed to create a new job.');
+      console.error(error);
+    }
   };
 
   const confirmDeleteJob = (job) => {
@@ -45,12 +63,23 @@ function BuyerJobs() {
     setJobToDelete(job);
   };
 
-  const handleDeleteJob = () => {
-    const updatedJobs = jobs.filter((job) => job.id !== jobToDelete.id);
-    setJobs(updatedJobs);
-    setSelectedJob(null); // Close the popup if the selected job is deleted
-    setShowDeleteConfirm(false);
-    setJobToDelete(null);
+  const handleDeleteJob = async () => {
+    try {
+      await axios.delete(`${API}/api/v1/jobs/${jobToDelete.id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("UserloginToken")}`,
+          accept: 'application/json',
+        },
+      });
+      const updatedJobs = jobs.filter((job) => job.id !== jobToDelete.id);
+      setJobs(updatedJobs);
+      setSelectedJob(null);
+    } catch (error) {
+      console.error('Failed to delete job:', error);
+    } finally {
+      setShowDeleteConfirm(false);
+      setJobToDelete(null);
+    }
   };
 
   const cancelDelete = () => {
@@ -58,13 +87,17 @@ function BuyerJobs() {
     setJobToDelete(null);
   };
 
+  if (loading) return <div className="text-center py-4">Loading jobs...</div>;
+  if (error) return <div className="text-center py-4 text-red-500">{error}</div>;
+
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Buyer Jobs</h1>
       <button
         onClick={() => setShowForm(true)}
-        className="bg-blue-500 text-white px-4 py-2 rounded mb-4"
+        className="bg-blue-500 text-white px-4 py-2 rounded mb-4 flex items-center"
       >
+        <FontAwesomeIcon icon={faPlus} className="mr-2" />
         Create New Job
       </button>
 
@@ -114,7 +147,7 @@ function BuyerJobs() {
         {jobs.map((job) => (
           <div
             key={job.id}
-            className="bg-white p-4 rounded shadow cursor-pointer relative"
+            className="bg-white p-4 rounded shadow cursor-pointer relative hover:shadow-lg transition duration-200"
             onClick={() => handleJobClick(job)}
           >
             <h2 className="text-xl font-semibold">{job.title}</h2>
@@ -129,7 +162,7 @@ function BuyerJobs() {
               }}
               className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded"
             >
-              Delete
+              <FontAwesomeIcon icon={faTrashAlt} />
             </button>
           </div>
         ))}

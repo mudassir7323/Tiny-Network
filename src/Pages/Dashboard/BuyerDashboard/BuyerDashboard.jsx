@@ -11,7 +11,6 @@ import { IoMdLogOut } from "react-icons/io";
 import { MdHomeRepairService } from "react-icons/md";
 import "./BuyerDashboard.css";
 import BuyerProfile from "./BuyerProfile";
-import BuyerDashboardCharts from "./BuyerDashboardCharts";
 import BuyerDashboardStats from "./BuyerDashboardStats";
 import BuyerDashboardGeneral from "./BuyerDashboardGeneral";
 import BuyerJobs from "./BuyerJobs";
@@ -53,10 +52,6 @@ const BuyerDashboard = () => {
             <FaChartBar className="icon" />
             Stats
           </li>
-          <li onClick={() => handleItemClick("Visuals")}>
-            <FaChartPie className="icon" />
-            Visuals
-          </li>
           <li onClick={() => handleItemClick("Profile")}>
             <FaUser className="icon" />
             Profile
@@ -87,8 +82,6 @@ const BuyerDashboard = () => {
                     <BuyerDashboardStats />
                   </div>
                 );
-              case "Visuals":
-                return <BuyerDashboardCharts />;
               case "Profile":
                 return <BuyerProfile />;
               case "Logout":

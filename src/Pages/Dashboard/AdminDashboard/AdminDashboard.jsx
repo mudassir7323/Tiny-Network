@@ -77,7 +77,7 @@ const AdminDashboard = () => {
           </li>
         </ul>
       </aside>
-      <main ref={mainContentRef}>
+      <main ref={mainContentRef} >
         <div className="main-content">
           {/* Updated Top Div with Tailwind */}
           <div className="bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500 text-white text-center py-4 rounded-lg shadow-lg mb-4">

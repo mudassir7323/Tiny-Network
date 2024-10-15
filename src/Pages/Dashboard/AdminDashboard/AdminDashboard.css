@@ -35,6 +35,7 @@ main {
   scrollbar-color: #1e88e5 #f5f7fa; /* For Firefox */
 }
 
+
 /* WebKit scrollbar styles for Chrome, Safari, Edge */
 .main-content::-webkit-scrollbar {
   width: 8px; /* Width of the scrollbar */
