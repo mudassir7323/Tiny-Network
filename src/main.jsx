@@ -15,6 +15,7 @@ import Signup from './Pages/Signup/Signup';
 import SignupMenu from './Pages/Signup/SignupMenu';
 import SignupForm from "./Pages/Signup/SignupForm";
 import BuyerSignup from './Pages/Signup/BuyerSignup/BuyerSignup';
+import AdminJobsView from './Pages/Dashboard/AdminDashboard/AdminJobsView';
 import BuyerJobsView from './Pages/Dashboard/BuyerDashboard/BuyerJobsView';
 import JobDetails from './Pages/Dashboard/UserDashboard/JobDetails';
 import UserGeneralProfile from './Pages/Dashboard/AdminDashboard/UserGeneralProfile';
@@ -41,7 +42,8 @@ const Main = () => {
           <Route path="AdminDashboard" element={<ProtectedRoutesAdmin element={<AdminDashboard />} />} />
           <Route path="/BuyerDashboard" element={<ProtectedRoutesUser element={<BuyerDashboard />} />} />
           <Route path="UserDashboard" element={<ProtectedRoutesUser element={<UserDashboard />} />} />   
-          <Route path="/BuyerJobsView/:ID" element={<ProtectedRoutesUser element={<BuyerJobsView />} />} />                 
+          <Route path="/BuyerJobsView/:ID" element={<ProtectedRoutesUser element={<BuyerJobsView />} />} />  
+          <Route path="/AdminJobsView/:ID" element={<ProtectedRoutesUser element={<AdminJobsView />} />} />                
           <Route path="/Jobdetails/:ID" element={<ProtectedRoutesUser element={<JobDetails />} />} />
           <Route path="/UserGeneralProfile2/:id" element={<ProtectedRoutesAdmin element={<UserGeneralProfile2 />} />} />  
           <Route path="/CreateJobs" element={<ProtectedRoutesUser element={<CreateJobs />} />} />            
