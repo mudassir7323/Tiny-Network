@@ -81,7 +81,7 @@ function CreateJobs() {
   };
 
   return (
-    <div className="p-4 bg-gray-100 rounded-lg shadow-md max-w-lg mx-auto">
+    <div className="p-4 bg-blue-50 rounded-lg shadow-md max-w-lg mx-auto"> {/* Updated background color here */}
       <h1 className="text-2xl font-bold mb-4">Create a New Job</h1>
 
       {/* Success Message */}
