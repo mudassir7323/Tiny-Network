@@ -20,6 +20,7 @@ const SignupForm = () => {
     document1Label: "Document 1",
     document2Label: "Document 2",
   });
+  
   const { serviceId } = useParams();
   const [serviceName, setServiceName] = useState("");
   const [error, setError] = useState("");
@@ -48,9 +49,8 @@ const SignupForm = () => {
   const handleChange = (e) => {
     const { name, value, type } = e.target;
 
-    // Ensure file inputs are being handled correctly as raw file objects
     if (type === "file") {
-      const file = e.target.files[0]; // Get the file object
+      const file = e.target.files[0];
       setFormData((prevData) => ({
         ...prevData,
         [name]: file,
@@ -73,11 +73,11 @@ const SignupForm = () => {
     requestData.append("firstName", formData.firstName);
     requestData.append("lastName", formData.lastName);
     requestData.append("dob", formData.dateOfBirth);
-    requestData.append("icon", formData.profilePicture); // Append file without converting to binary
+    requestData.append("icon", formData.profilePicture); // Append profile picture
     requestData.append("password", formData.password);
-    requestData.append("Document1", formData.document1); // Append file without converting to binary
-    requestData.append("Document2", formData.document2); // Append file without converting to binary
-    requestData.append("serviceId", serviceId);
+    requestData.append("document1", formData.document1); // Correct key as per your API
+    requestData.append("document2", formData.document2); // Correct key as per your API
+    requestData.append("serviceId", serviceId); // Include the serviceId
 
     try {
       // Make a POST request to submit the form data
@@ -87,7 +87,7 @@ const SignupForm = () => {
         {
           headers: {
             accept: "application/json",
-            "Content-Type": "multipart/form-data", // Ensure correct headers for file upload
+            "Content-Type": "multipart/form-data",
           },
         }
       );
