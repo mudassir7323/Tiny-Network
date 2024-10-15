@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import API from "../../variable";
+import Navbar from "../../Components/Navbar"
 
 const SignupForm = () => {
   const [formData, setFormData] = useState({
@@ -102,7 +103,8 @@ const SignupForm = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-purple-500 to-indigo-500 p-4">
-      <h2 className="text-4xl font-bold text-white mb-4 text-center">{serviceName}</h2>
+      <Navbar/>
+      <h2 className="text-4xl font-bold pt-14 text-white mb-4 text-center">{serviceName}</h2>
       <form
         onSubmit={handleSubmit}
         className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md"
