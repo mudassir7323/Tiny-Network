@@ -52,7 +52,7 @@ const UserGeneralProfile = () => {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 p-8 relative">
       
       {/* Back Button at the Top */}
-      <div className="absolute top-4 left-4">
+      <div className="absolute top-4 left-4 z-50">
         <button
           onClick={() => navigate(-1)} // Go back to the previous page
           className="text-blue-600 hover:text-blue-800 text-3xl"

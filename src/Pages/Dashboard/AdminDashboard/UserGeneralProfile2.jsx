@@ -17,17 +17,12 @@ const UserGeneralProfile2 = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        console.log(id);
-        
         const response = await axios.get(`${API}/api/v1/users/unauthorized/${id}`, {
           headers: { 
             accept: 'application/json',
             Authorization: `Bearer ${localStorage.getItem("AdminloginToken")}`
           }
         });
-        console.log(id);
-        
-        // Set the user data after successful API call
         setUserData(response.data);
       } catch (error) {
         console.error('Error fetching user profile:', error);
@@ -39,6 +34,43 @@ const UserGeneralProfile2 = () => {
 
     fetchUserProfile();
   }, [id]);
+
+  const handleAccept = async (userId) => {
+    try {
+      await axios.post(
+        `${API}/api/v1/user/authorise?user_id=${userId}`,
+        {},
+        {
+          headers: {
+            accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("AdminloginToken")}`,
+          },
+        }
+      );
+      console.log(`Accepted request from user ${userId}`);
+      navigate(-1); // Navigate back after accepting
+    } catch (error) {
+      console.error("Error accepting request:", error);
+    }
+  };
+
+  const handleIgnore = async (userId) => {
+    try {
+      await axios.delete(
+        `${API}/api/v1/unauthorized/${userId}`,
+        {
+          headers: {
+            accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("AdminloginToken")}`,
+          },
+        }
+      );
+      console.log(`Ignored request from user ${userId}`);
+      navigate(-1); // Navigate back after ignoring
+    } catch (error) {
+      console.error("Error ignoring request:", error);
+    }
+  };
 
   if (loading) {
     return <div className="flex items-center justify-center h-screen bg-gray-50 text-lg text-gray-700 animate-pulse">Loading...</div>;
@@ -52,7 +84,7 @@ const UserGeneralProfile2 = () => {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 p-8 relative">
       
       {/* Back Button at the Top */}
-      <div className="absolute top-4 left-4">
+      <div className="absolute top-4 left-4 z-50">
         <button
           onClick={() => navigate(-1)} // Go back to the previous page
           className="text-blue-600 hover:text-blue-800 text-3xl"
@@ -162,6 +194,22 @@ const UserGeneralProfile2 = () => {
               <p className="text-gray-900">Not available</p>
             )}
           </div>
+        </div>
+
+        {/* Accept and Ignore Buttons */}
+        <div className="flex justify-between mt-6">
+          <button
+            onClick={() => handleAccept(id)} // Accept user request
+            className="px-4 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition"
+          >
+            Accept
+          </button>
+          <button
+            onClick={() => handleIgnore(id)} // Ignore user request
+            className="px-4 py-2 bg-red-600 text-white rounded-lg shadow hover:bg-red-700 transition"
+          >
+            Ignore
+          </button>
         </div>
       </div>
     </div>
