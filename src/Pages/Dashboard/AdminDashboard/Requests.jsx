@@ -94,7 +94,7 @@ const Requests = () => {
   }
 
   const handleClickUser = (id) => {
-    navigate(`/UserGeneralProfile/${id}`);
+    navigate(`/UserGeneralProfile2/${id}`);
   };
 
   return (

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import API from "../../../variable";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft, faDownload } from '@fortawesome/free-solid-svg-icons'; // Import icons
 
 const UserGeneralProfile2 = () => {
   const { id } = useParams(); // Get the user ID from the URL params
@@ -9,6 +11,7 @@ const UserGeneralProfile2 = () => {
   const [error, setError] = useState(null); // State to handle any errors
   const [loading, setLoading] = useState(true); // State to manage loading
   const [showModal, setShowModal] = useState(false); // State for handling image popup
+  const navigate = useNavigate(); // For navigating back to the previous page
 
   // Fetch user data when the component mounts or when the 'id' param changes
   useEffect(() => {
@@ -46,7 +49,18 @@ const UserGeneralProfile2 = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 p-8">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 p-8 relative">
+      
+      {/* Back Button at the Top */}
+      <div className="absolute top-4 left-4">
+        <button
+          onClick={() => navigate(-1)} // Go back to the previous page
+          className="text-blue-600 hover:text-blue-800 text-3xl"
+        >
+          <FontAwesomeIcon icon={faArrowLeft} />
+        </button>
+      </div>
+
       <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-lg transition duration-300 transform hover:scale-105">
         <div className="text-center mb-8">
           {/* Show user icon */}
@@ -125,9 +139,9 @@ const UserGeneralProfile2 = () => {
               <a
                 href={`data:application/${userData.document1_type};base64,${userData.base64_document1}`}
                 download="document1.pdf"
-                className="text-blue-600 hover:text-blue-800 transition duration-200 underline"
+                className="text-blue-600 hover:text-blue-800 transition duration-200"
               >
-                Download Document 1
+                <FontAwesomeIcon icon={faDownload} size="lg" />
               </a>
             ) : (
               <p className="text-gray-900">Not available</p>
@@ -140,9 +154,9 @@ const UserGeneralProfile2 = () => {
               <a
                 href={`data:application/${userData.document2_type};base64,${userData.base64_document2}`}
                 download="document2.pdf"
-                className="text-blue-600 hover:text-blue-800 transition duration-200 underline"
+                className="text-blue-600 hover:text-blue-800 transition duration-200"
               >
-                Download Document 2
+                <FontAwesomeIcon icon={faDownload} size="lg" />
               </a>
             ) : (
               <p className="text-gray-900">Not available</p>
