@@ -15,6 +15,7 @@ import BuyerDashboardStats from "./BuyerDashboardStats";
 import BuyerDashboardGeneral from "./BuyerDashboardGeneral";
 import BuyerJobs from "./BuyerJobs";
 import BuyerLogout from "./BuyerLogout";
+import CreateJobs from "./CreateJobs";
 
 const BuyerDashboard = () => {
   const [isAsideVisible, setIsAsideVisible] = useState(false);
@@ -60,6 +61,10 @@ const BuyerDashboard = () => {
             <MdHomeRepairService className="icon" />
             Listings
           </li>
+          <li onClick={() => handleItemClick("Create")}>
+            <MdHomeRepairService className="icon" />
+            Create Jobs
+          </li>
           <li onClick={() => handleItemClick("Logout")}>
             <IoMdLogOut className="icon" />
             Logout
@@ -88,6 +93,8 @@ const BuyerDashboard = () => {
                 return <BuyerLogout />;
               case "Jobs":
                 return <BuyerJobs />;
+              case "Create":
+                return <CreateJobs />;
               default:
                 return <div>Select an option</div>;
             }

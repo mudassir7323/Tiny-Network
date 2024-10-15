@@ -21,6 +21,7 @@ import UserGeneralProfile from './Pages/Dashboard/AdminDashboard/UserGeneralProf
 import UserGeneralProfile2 from './Pages/Dashboard/AdminDashboard/UserGeneralProfile2';
 import ProtectedRoutesUser from "./Components/ProtectedRoutesUser";
 import ProtectedRoutesAdmin from "./Components/ProtectedRoutesAdmin";
+import CreateJobs from './Pages/Dashboard/BuyerDashboard/CreateJobs';
 
 const Main = () => {
   return (
@@ -41,8 +42,9 @@ const Main = () => {
           <Route path="/BuyerDashboard" element={<ProtectedRoutesUser element={<BuyerDashboard />} />} />
           <Route path="UserDashboard" element={<ProtectedRoutesUser element={<UserDashboard />} />} />   
           <Route path="/BuyerJobsView/:ID" element={<ProtectedRoutesUser element={<BuyerJobsView />} />} />                 
-          <Route path="/Jobdetails/:JobID" element={<ProtectedRoutesUser element={<JobDetails />} />} />
-          <Route path="/UserGeneralProfile2/:id" element={<ProtectedRoutesAdmin element={<UserGeneralProfile2 />} />} />            
+          <Route path="/Jobdetails/:ID" element={<ProtectedRoutesUser element={<JobDetails />} />} />
+          <Route path="/UserGeneralProfile2/:id" element={<ProtectedRoutesAdmin element={<UserGeneralProfile2 />} />} />  
+          <Route path="/CreateJobs" element={<ProtectedRoutesUser element={<CreateJobs />} />} />            
         </Route>
       </Routes>
     </BrowserRouter>
