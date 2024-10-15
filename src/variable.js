@@ -1,3 +1,3 @@
- const API = "https://tinytasksnetwork.duckdns.org";
+ const API = "https://tinytasknetworks.duckdns.org";
 
  export default API;

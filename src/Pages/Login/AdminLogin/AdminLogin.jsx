@@ -63,16 +63,6 @@ const AdminLogin = () => {
         {/* Left Section: Form */}
         <div className="w-full md:w-1/2 p-8">
           <h2 className="text-2xl font-bold text-gray-700 mb-4">Admin Login</h2>
-          <p className="text-sm text-gray-500 mb-6">
-            Don't have an account yet?{" "}
-            <span
-              className="text-indigo-600 hover:underline cursor-pointer"
-              onClick={() => navigate("/Signup")} // Navigate on click
-            >
-              Sign Up
-            </span>
-          </p>
-
           {/* Error message display */}
           {errorMessage && <div className="mb-4 text-red-500">{errorMessage}</div>}
 

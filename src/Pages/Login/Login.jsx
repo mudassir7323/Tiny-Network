@@ -1,5 +1,5 @@
 import React from "react";
-import AdminImage from "./Admin.jpg"; // Make sure to replace with the correct path for the Admin image
+import AdminImage from "./Admin.jpeg"; // Make sure to replace with the correct path for the Admin image
 import UserImage from "./User.png"; // Make sure to replace with the correct path for the User image
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../Components/Navbar";
