@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import API from '../../../variable'; // Update with your API config
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle, faTrash, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 function AdminJobsView() {
   const { ID } = useParams(); // Get job ID from params
@@ -11,8 +11,6 @@ function AdminJobsView() {
   const [applicants, setApplicants] = useState([]); // Applicants data
   const [loading, setLoading] = useState(true); // Loading state
   const [error, setError] = useState(null); // Error state
-  const [showAcceptConfirm, setShowAcceptConfirm] = useState(false); // Confirm accept modal
-  const [freelancerToAccept, setFreelancerToAccept] = useState(null); // Freelancer to accept
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false); // Confirm delete job modal
   const navigate = useNavigate();
 
@@ -48,23 +46,6 @@ function AdminJobsView() {
     fetchJobDetails();
   }, [ID]);
 
-  const handleAcceptFreelancer = async (freelancerID) => {
-    try {
-      // Your logic to accept freelancer
-      alert('Freelancer accepted successfully!');
-    } catch (error) {
-      console.error('Error accepting freelancer:', error);
-    } finally {
-      setShowAcceptConfirm(false);
-      setFreelancerToAccept(null);
-    }
-  };
-
-  const confirmAcceptFreelancer = (freelancerID) => {
-    setShowAcceptConfirm(true);
-    setFreelancerToAccept(freelancerID);
-  };
-
   const confirmDeleteJob = () => {
     setShowDeleteConfirm(true);
   };
@@ -84,11 +65,6 @@ function AdminJobsView() {
     } finally {
       setShowDeleteConfirm(false);
     }
-  };
-
-  const cancelAccept = () => {
-    setShowAcceptConfirm(false);
-    setFreelancerToAccept(null);
   };
 
   const cancelDelete = () => {
@@ -126,13 +102,6 @@ function AdminJobsView() {
             <div key={index} className="bg-white p-4 rounded-lg shadow-md">
               <h3 className="text-lg font-bold mb-2">{`${freelancer.firstName} ${freelancer.lastName}`}</h3>
               <p className="text-gray-700"><strong>Email:</strong> {freelancer.email}</p>
-              <button
-                className="bg-green-500 text-white px-4 py-2 rounded-lg mt-2 hover:bg-green-600"
-                onClick={() => confirmAcceptFreelancer(freelancer.ID)}
-              >
-                <FontAwesomeIcon icon={faCheckCircle} className="mr-2" />
-                Accept
-              </button>
             </div>
           ))}
         </div>
@@ -150,30 +119,6 @@ function AdminJobsView() {
           Delete Job
         </button>
       </div>
-
-      {/* Confirm Accept Modal */}
-      {showAcceptConfirm && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-6 rounded-lg shadow-lg">
-            <h2 className="text-xl font-bold mb-2">Confirm Accept</h2>
-            <p>Are you sure you want to accept this freelancer?</p>
-            <div className="mt-4 flex justify-end space-x-4">
-              <button
-                onClick={() => handleAcceptFreelancer(freelancerToAccept)}
-                className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-              >
-                Confirm
-              </button>
-              <button
-                onClick={cancelAccept}
-                className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Confirm Delete Job Modal */}
       {showDeleteConfirm && (

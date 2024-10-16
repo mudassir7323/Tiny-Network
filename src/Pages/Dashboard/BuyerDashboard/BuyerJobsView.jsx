@@ -28,6 +28,8 @@ function BuyerJobsView() {
         });
 
         setJob(jobResponse.data);
+        console.log(jobResponse);
+        
       } catch (error) {
         console.error('Error fetching job details:', error);
         setError('Failed to fetch job details');
@@ -59,16 +61,23 @@ function BuyerJobsView() {
 
   const handleAcceptFreelancer = async (freelancerID) => {
     try {
-      // Your logic to accept freelancer
-      console.log(`Accepting freelancer with ID: ${freelancerID}`);
+      // API call to approve the freelancer for the specific job
+      await axios.put(`${API}/api/v1/approve/applicants/${ID}/${freelancerID}`, {}, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('UserloginToken')}`,
+        },
+      });
+  
       alert('Freelancer accepted successfully!');
     } catch (error) {
       console.error('Error accepting freelancer:', error);
+      alert('Failed to accept the freelancer');
     } finally {
       setShowAcceptConfirm(false);
       setFreelancerToAccept(null);
     }
   };
+  
 
   const confirmAcceptFreelancer = (freelancerID) => {
     setShowAcceptConfirm(true);
@@ -113,7 +122,7 @@ function BuyerJobsView() {
 
   // Navigate to applicant's profile page
   const navigateToFreelancerProfile = (freelancerID) => {
-    navigate(`/UserGeneralProfile/${freelancerID}`); // Example route for freelancer profile page
+    navigate(`/UserGeneralProfile3/${freelancerID}`); // Example route for freelancer profile page
   };
 
   if (loading) {

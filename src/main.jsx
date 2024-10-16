@@ -20,6 +20,7 @@ import BuyerJobsView from './Pages/Dashboard/BuyerDashboard/BuyerJobsView';
 import JobDetails from './Pages/Dashboard/UserDashboard/JobDetails';
 import UserGeneralProfile from './Pages/Dashboard/AdminDashboard/UserGeneralProfile';
 import UserGeneralProfile2 from './Pages/Dashboard/AdminDashboard/UserGeneralProfile2';
+import UserGeneralProfile3 from './Pages/Dashboard/BuyerDashboard/UserGeneralProfile3';
 import ProtectedRoutesUser from "./Components/ProtectedRoutesUser";
 import ProtectedRoutesAdmin from "./Components/ProtectedRoutesAdmin";
 import CreateJobs from './Pages/Dashboard/BuyerDashboard/CreateJobs';
@@ -37,7 +38,8 @@ const Main = () => {
           <Route path="/SignupMenu" element={<SignupMenu />} />          
           <Route path="/SignupForm/:serviceId" element={<SignupForm />} />         
           <Route path="Buyer-Signup" element={<BuyerSignup />} />
-          <Route path="/UserGeneralProfile/:id" element={<UserGeneralProfile />} />
+          <Route path="/UserGeneralProfile/:id" element={<UserGeneralProfile />} />          
+          <Route path="/UserGeneralProfile3/:id" element={<UserGeneralProfile3 />} />
           {/* Protected Routes   */}
           <Route path="AdminDashboard" element={<ProtectedRoutesAdmin element={<AdminDashboard />} />} />
           <Route path="/BuyerDashboard" element={<ProtectedRoutesUser element={<BuyerDashboard />} />} />
