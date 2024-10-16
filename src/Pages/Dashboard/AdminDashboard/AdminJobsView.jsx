@@ -70,7 +70,7 @@ function AdminJobsView() {
 
   const handleDeleteJob = async () => {
     try {
-      await axios.delete(`${API}/api/v1/listings/self/${ID}/`, {
+      await axios.delete(`${API}/api/v1/listings/${ID}/`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('AdminloginToken')}`,
         },

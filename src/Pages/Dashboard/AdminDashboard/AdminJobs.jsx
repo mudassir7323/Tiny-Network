@@ -50,9 +50,9 @@ function AdminJobs() {
 
   const handleDeleteJob = async () => {
     try {
-      await axios.delete(`${API}/api/v1/listings/self/${jobToDelete.id}`, {
+      await axios.delete(`${API}/api/v1/listings/${jobToDelete.id}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("UserloginToken")}`,
+          Authorization: `Bearer ${localStorage.getItem("AdminloginToken")}`,
         }
       });
       // Remove the deleted job from the state
