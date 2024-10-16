@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import API from '../../../variable'; // Your API URL
 import { useNavigate } from 'react-router-dom';
 
@@ -102,6 +102,17 @@ function BuyerJobs() {
               className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded"
             >
               <FontAwesomeIcon icon={faTrashAlt} />
+            </button>
+
+            {/* Complete Job Button */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation(); // Prevent card click event
+                confirmDeleteJob(job); // Use same logic as delete button
+              }}
+              className="absolute top-2 right-10 bg-green-500 text-white px-2 py-1 rounded"
+            >
+              <FontAwesomeIcon icon={faCheckCircle} />
             </button>
           </div>
         ))}
