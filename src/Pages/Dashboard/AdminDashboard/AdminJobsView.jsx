@@ -34,8 +34,9 @@ function AdminJobsView() {
             Authorization: `Bearer ${localStorage.getItem('AdminloginToken')}`, // Use same token for authorization
           },
         });
+        console.log(applicantsResponse);
         
-        setApplicants(applicantsResponse.data); // Assuming the response data contains the applicants
+        setApplicants(applicantsResponse.data.applicants); // Assuming the response data contains the applicants
       } catch (error) {
         console.error('Error fetching job details:', error);
         setError('Failed to fetch job details');
