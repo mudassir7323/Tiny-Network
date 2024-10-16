@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import API from "../../variable";
-import Navbar from "../../Components/Navbar"
+import Navbar from "../../Components/Navbar";
 import { useNavigate } from "react-router-dom";
 
 const SignupForm = () => {
@@ -24,10 +24,11 @@ const SignupForm = () => {
     document1Label: "Document 1",
     document2Label: "Document 2",
   });
-  
+
   const { serviceId } = useParams();
   const [serviceName, setServiceName] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false); // Loading state
 
   useEffect(() => {
     const fetchDynamicFields = async () => {
@@ -51,10 +52,17 @@ const SignupForm = () => {
   }, [serviceId]);
 
   const handleChange = (e) => {
-    const { name, value, type } = e.target;
+    const { name, value, type, files } = e.target;
 
     if (type === "file") {
-      const file = e.target.files[0];
+      const file = files[0];
+      
+      // Limit file size to 2MB (2 * 1024 * 1024 bytes)
+      if (file && file.size > 0.3 * 1024 * 1024) {
+        alert("File size exceeds 300KB limit. Please upload a smaller file.");
+        return;
+      }
+
       setFormData((prevData) => ({
         ...prevData,
         [name]: file,
@@ -69,22 +77,22 @@ const SignupForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Create a new FormData instance for file and text data
+    
+    setLoading(true); // Set loading state to true
+    
     const requestData = new FormData();
     requestData.append("username", formData.email.split("@")[0]);
     requestData.append("email", formData.email);
     requestData.append("firstName", formData.firstName);
     requestData.append("lastName", formData.lastName);
     requestData.append("dob", formData.dateOfBirth);
-    requestData.append("icon", formData.profilePicture); // Append profile picture
+    requestData.append("icon", formData.profilePicture);
     requestData.append("password", formData.password);
-    requestData.append("document1", formData.document1); // Correct key as per your API
-    requestData.append("document2", formData.document2); // Correct key as per your API
-    requestData.append("serviceId", serviceId); // Include the serviceId
+    requestData.append("document1", formData.document1);
+    requestData.append("document2", formData.document2);
+    requestData.append("serviceId", serviceId);
 
     try {
-      // Make a POST request to submit the form data
       const response = await axios.post(
         `${API}/api/v1/auth/signup/seller`,
         requestData,
@@ -95,20 +103,21 @@ const SignupForm = () => {
           },
         }
       );
-
-      console.log("Signup successful:", response.data);
-      navigate("/User-login")
       
-      // Handle successful signup (e.g., redirect or show a success message)
+      console.log("Signup successful:", response.data);
+      navigate("/User-login");
+      
     } catch (error) {
       console.error("Error submitting form:", error);
       setError("An error occurred while submitting the form.");
-    } 
+    } finally {
+      setLoading(false); // Stop loading after request completes
+    }
   };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-purple-500 to-indigo-500 p-4">
-      <Navbar/>
+      <Navbar />
       <h2 className="text-4xl font-bold pt-14 text-white mb-4 text-center">{serviceName}</h2>
       <form
         onSubmit={handleSubmit}
@@ -116,7 +125,6 @@ const SignupForm = () => {
       >
         {error && <div className="mb-4 text-red-500">{error}</div>}
 
-        {/* First Name */}
         <div className="mb-4">
           <label className="block text-gray-700 font-bold mb-2">First Name</label>
           <input
@@ -129,7 +137,6 @@ const SignupForm = () => {
           />
         </div>
 
-        {/* Last Name */}
         <div className="mb-4">
           <label className="block text-gray-700 font-bold mb-2">Last Name</label>
           <input
@@ -142,7 +149,6 @@ const SignupForm = () => {
           />
         </div>
 
-        {/* Email */}
         <div className="mb-4">
           <label className="block text-gray-700 font-bold mb-2">Email</label>
           <input
@@ -155,7 +161,6 @@ const SignupForm = () => {
           />
         </div>
 
-        {/* Password */}
         <div className="mb-4">
           <label className="block text-gray-700 font-bold mb-2">Password</label>
           <input
@@ -168,7 +173,6 @@ const SignupForm = () => {
           />
         </div>
 
-        {/* Confirm Password */}
         <div className="mb-4">
           <label className="block text-gray-700 font-bold mb-2">Confirm Password</label>
           <input
@@ -181,7 +185,6 @@ const SignupForm = () => {
           />
         </div>
 
-        {/* Date of Birth */}
         <div className="mb-4">
           <label className="block text-gray-700 font-bold mb-2">Date of Birth</label>
           <input
@@ -194,7 +197,6 @@ const SignupForm = () => {
           />
         </div>
 
-        {/* Profile Picture */}
         <div className="mb-4">
           <label className="block text-gray-700 font-bold mb-2">Profile Picture</label>
           <input
@@ -206,7 +208,6 @@ const SignupForm = () => {
           />
         </div>
 
-        {/* Document 1 */}
         <div className="mb-4">
           <label className="block text-gray-700 font-bold mb-2">{dynamicLabels.document1Label}</label>
           <input
@@ -218,7 +219,6 @@ const SignupForm = () => {
           />
         </div>
 
-        {/* Document 2 */}
         <div className="mb-4">
           <label className="block text-gray-700 font-bold mb-2">{dynamicLabels.document2Label}</label>
           <input
@@ -230,13 +230,15 @@ const SignupForm = () => {
           />
         </div>
 
-        {/* Submit Button */}
         <div className="mb-4">
           <button
             type="submit"
-            className="w-full bg-purple-500 text-white py-2 rounded-md hover:bg-purple-600 transition duration-300"
+            className={`w-full bg-purple-500 text-white py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+              loading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            disabled={loading} // Disable button while loading
           >
-            Sign Up
+            {loading ? "Signing up..." : "Sign Up"}
           </button>
         </div>
       </form>

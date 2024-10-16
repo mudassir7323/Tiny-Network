@@ -15,13 +15,27 @@ function BuyerSignup() {
     profilePicture: null,
   });
 
+  const [loading, setLoading] = useState(false); // Loader state
+  const [fileError, setFileError] = useState(""); // File error state for size check
   const navigate = useNavigate();
+
+  // File size limit in bytes (e.g., 5MB = 5 * 1024 * 1024)
+  const MAX_FILE_SIZE = 1 * 1024 * 1024;
 
   // Handle input changes
   const handleChange = (e) => {
     const { name, type, files } = e.target;
+    
+    // File input handling
     if (type === "file") {
-      setFormData({ ...formData, [name]: files[0] });
+      const file = files[0];
+      if (file && file.size > MAX_FILE_SIZE) {
+        setFileError("File size exceeds 5MB.");
+        setFormData({ ...formData, [name]: null });
+      } else {
+        setFileError("");
+        setFormData({ ...formData, [name]: file });
+      }
     } else {
       setFormData({ ...formData, [name]: e.target.value });
     }
@@ -29,10 +43,18 @@ function BuyerSignup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (formData.password === "") {
       alert("Password is required!");
       return;
     }
+
+    if (!formData.profilePicture) {
+      alert("Profile picture is required and must be below 5MB.");
+      return;
+    }
+
+    setLoading(true); // Start loader
 
     // Create FormData for file uploads and text fields
     const requestData = new FormData();
@@ -64,15 +86,18 @@ function BuyerSignup() {
 
       console.log("Signup successful:", response.data);
       navigate("/User-login");
-      // Handle successful signup (e.g., redirect or show a success message)
     } catch (error) {
       console.error("Error submitting form:", error);
       if (error.response) {
         console.error("Response data:", error.response.data); // Log the error response
-        alert(`Error: ${error.response.data.message || "An error occurred while submitting the form."}`);
+        alert(
+          `Error: ${error.response.data.message || "An error occurred while submitting the form."}`
+        );
       } else {
         alert("An error occurred while submitting the form.");
       }
+    } finally {
+      setLoading(false); // Stop loader
     }
   };
 
@@ -200,15 +225,21 @@ function BuyerSignup() {
             required
             className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
           />
+          {fileError && (
+            <p className="text-red-500 text-sm mt-2">{fileError}</p>
+          )}
         </div>
 
         {/* Submit Button */}
         <div className="mb-4">
           <button
             type="submit"
-            className="w-full bg-purple-500 text-white py-2 rounded-md hover:bg-purple-600 transition duration-300"
+            className={`w-full py-2 rounded-md text-white transition duration-300 ${
+              loading ? "bg-gray-400 cursor-not-allowed" : "bg-purple-500 hover:bg-purple-600"
+            }`}
+            disabled={loading}
           >
-            Sign Up
+            {loading ? "Signing Up..." : "Sign Up"}
           </button>
         </div>
       </form>
