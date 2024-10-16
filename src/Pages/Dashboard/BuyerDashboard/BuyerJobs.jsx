@@ -73,7 +73,7 @@ function BuyerJobs() {
   };
 
   if (loading) return <div className="text-center py-4">Loading jobs...</div>;
-  if (error) return <div className="text-center py-4 text-red-500">{error}</div>;
+  if (error) return <div className="text-center text-lg py-4 text-black">No Jobs Found</div>;
 
   return (
     <div className="p-4">
