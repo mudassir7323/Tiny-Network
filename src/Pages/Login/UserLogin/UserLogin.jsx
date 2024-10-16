@@ -10,9 +10,10 @@ const LoginFunc = async (credentials) => {
   try {
     const response = await axios.post(`${API}/api/v1/signin`, credentials);
     
-    // Save the token and category in localStorage
     localStorage.setItem("UserloginToken", response.data.access_token);
     localStorage.setItem("UserCategory", response.data.category); // Save category for later use
+    localStorage.setItem("ServiceID", response.data.serviceid);
+    
     return { success: true, response }; // Return the entire response for category check
   } catch (error) {
     console.error("Sign-in error:", error.response?.data || error.message);

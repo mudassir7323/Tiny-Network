@@ -49,7 +49,7 @@ const UserProfile = () => {
       <div className="bg-white shadow-xl rounded-lg w-full max-w-4xl p-8 relative">
         
         {/* Back Button */}
-        <button onClick={() => navigate(-1)} className="absolute top-4 left-4 text-gray-700 hover:text-gray-900">
+        <button onClick={() => navigate("/UserDashboard")} className="absolute top-4 left-4 text-gray-700 hover:text-gray-900">
           <FontAwesomeIcon icon={faArrowLeft} size="lg" />
         </button>
 

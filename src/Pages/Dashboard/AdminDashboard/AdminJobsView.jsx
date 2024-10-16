@@ -3,12 +3,12 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import API from '../../../variable'; // Update with your API config
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle, faTrash, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 function AdminJobsView() {
   const { ID } = useParams(); // Get job ID from params
-  
   const [job, setJob] = useState(null); // Job data
+  const [applicants, setApplicants] = useState([]); // Applicants data
   const [loading, setLoading] = useState(true); // Loading state
   const [error, setError] = useState(null); // Error state
   const [showAcceptConfirm, setShowAcceptConfirm] = useState(false); // Confirm accept modal
@@ -27,6 +27,17 @@ function AdminJobsView() {
         });
 
         setJob(jobResponse.data);
+
+        // Fetch applicants
+        const applicantsResponse = await axios.get(`${API}/api/v1/admin/listings/${ID}/applicants`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('AdminloginToken')}`, // Use same token for authorization
+          },
+        });
+        
+        console.log(applicantsResponse);
+        
+        setApplicants(applicantsResponse.data); // Assuming the response data contains the applicants
       } catch (error) {
         console.error('Error fetching job details:', error);
         setError('Failed to fetch job details');
@@ -42,12 +53,6 @@ function AdminJobsView() {
     try {
       // Your logic to accept freelancer
       console.log(`Accepting freelancer with ID: ${freelancerID}`);
-      // Example API call (uncomment and implement)
-      // await axios.post(`${API}/api/v1/job/${ID}/accept/${freelancerID}`, null, {
-      //   headers: {
-      //     Authorization: `Bearer ${localStorage.getItem('UserToken')}`,
-      //   },
-      // });
       alert('Freelancer accepted successfully!');
     } catch (error) {
       console.error('Error accepting freelancer:', error);
@@ -75,7 +80,7 @@ function AdminJobsView() {
         },
       });
       alert('Job deleted successfully!');
-      navigate('/BuyerDashboard'); // Redirect after deletion
+      navigate('/AdminDashboard'); // Redirect after deletion
     } catch (error) {
       console.error('Error deleting job:', error);
       alert('Failed to delete job');
@@ -102,7 +107,12 @@ function AdminJobsView() {
   }
 
   return (
-    <div className="p-4 bg-gradient-to-r from-purple-400 to-blue-400 min-h-screen">
+    <div className="p-4 bg-gradient-to-r from-purple-400 to-blue-400 min-h-screen relative">
+      {/* Back Button */}
+      <button className="absolute top-4 left-4 text-purple-800 hover:text-gray-300" onClick={() => navigate(-1)}>
+        <FontAwesomeIcon icon={faArrowLeft} size="2x" />
+      </button>
+
       <div className="bg-gradient-to-r from-white to-gray-200 p-6 rounded-lg shadow-lg mb-6">
         <h1 className="text-3xl font-bold mb-4 text-center text-purple-800">{job.title}</h1>
         <p className="mb-2 text-center text-gray-700"><strong>Description:</strong> {job.description}</p>
@@ -111,9 +121,9 @@ function AdminJobsView() {
       </div>
 
       <h2 className="text-2xl font-semibold mt-6 mb-4 text-center text-white">Freelancers Applied</h2>
-      {job.applicants && job.applicants.length > 0 ? (
+      {applicants.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {job.applicants.map((freelancer, index) => (
+          {applicants.map((freelancer, index) => (
             <div key={index} className="bg-white border border-gray-300 rounded-lg shadow-md p-4 hover:shadow-lg transition duration-200">
               <img src={freelancer.icon} alt="Freelancer Icon" className="w-16 h-16 rounded-full mx-auto mb-4" />
               <h3 className="text-lg font-semibold text-center text-purple-800">{`${freelancer.firstName} ${freelancer.lastName}`}</h3>
