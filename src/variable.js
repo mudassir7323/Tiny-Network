@@ -1,3 +1,3 @@
- const API = "https://tinytasknetworks.duckdns.org";
+ const API = "https://vast-spiders-occur.loca.lt";
 
  export default API;
